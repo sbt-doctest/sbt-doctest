@@ -24,12 +24,12 @@ object Specs2TestGen extends TestGen {
   }
 
   override protected def generateTestCase(caseName: String, caseBody: String): String =
-    s"""  "$caseName" must {
+    s"""  "$caseName" >> {
        |$caseBody
        |  }""".stripMargin
 
   override protected def generateExample(description: String, assertions: String): String =
-    s"""    "$description" in {
+    s"""    "$description" >> {
        |      $assertions
        |    }""".stripMargin
 
