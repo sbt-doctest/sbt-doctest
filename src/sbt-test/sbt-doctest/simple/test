@@ -1,7 +1,7 @@
 > show libraryDependencies
 > clean
 > + Test/compile
- 
+
 $ exists target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
 $ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
 $ absent target/scala-2.13/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
@@ -38,6 +38,8 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.Specs2
 > doctestTestFramework
 > + test
+# Tests should only be executed once (regression test for #466)
+> existsInFile "examples=1,successes=1,expectations=1" target/specs2-reports/stats/sbt_doctest.SingleDoctest.stats
 > set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
 -> +test
 
