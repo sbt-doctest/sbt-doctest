@@ -7,7 +7,7 @@ lazy val root = (project in file("."))
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-M3"
+          "2.0.0-M4"
       }
     },
     name := "sbt-doctest",
