@@ -189,10 +189,10 @@ object TestGenSpec extends TestSuite {
             |
             |  implicit def toMatcher[T](t: T): _root_.org.specs2.matcher.Matcher[T] = _root_.org.specs2.matcher.AlwaysMatcher[T]()
             |
-            |  "MyClass.scala:37: sumExample" must {
+            |  "MyClass.scala:37: sumExample" >> {
             |    import scala.util.Random
             |
-            |    "example at line 39: List(1,2,3).sum" in {
+            |    "example at line 39: List(1,2,3).sum" >> {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
             |      sbtDoctestReplString(List(1,2,3).sum) must_== "6"
             |    }
