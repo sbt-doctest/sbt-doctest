@@ -15,7 +15,7 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
-publishTo := (if(isSnapshot.value) None else localStaging.value)
+publishTo := (if (isSnapshot.value) None else localStaging.value)
 
 pomExtra := {
   <url>https://github.com/sbt-doctest/sbt-doctest/</url>
