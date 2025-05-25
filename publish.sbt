@@ -8,15 +8,14 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining("+ publishSigned"),
-  releaseStepCommandAndRemaining("sonatypeBundleRelease"),
+  releaseStepCommandAndRemaining("sonaUpload"),
+  releaseStepCommandAndRemaining("sonaRelease"),
   setNextVersion,
   commitNextVersion,
   pushChanges
 )
 
-publishTo := sonatypePublishToBundle.value
-
-ThisBuild / sonatypeCredentialHost := Sonatype.sonatypeCentralHost
+publishTo := (if (isSnapshot.value) None else localStaging.value)
 
 pomExtra := {
   <url>https://github.com/sbt-doctest/sbt-doctest/</url>
