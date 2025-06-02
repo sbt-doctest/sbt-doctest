@@ -2,13 +2,13 @@
 > clean
 > + Test/compile
  
-$ exists target/scala-3.3.4/src_managed/test/sbt_doctest/MainDoctest.scala
+$ exists target/scala-3.3.6/src_managed/test/sbt_doctest/MainDoctest.scala
 $ exists target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
 $ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
-$ absent target/scala-3.3.4/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
+$ absent target/scala-3.3.6/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ absent target/scala-2.13/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ absent target/scala-2.12/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
-$ exists target/scala-3.3.4/src_managed/test/READMEmd0Doctest.scala
+$ exists target/scala-3.3.6/src_managed/test/READMEmd0Doctest.scala
 $ exists target/scala-2.13/src_managed/test/READMEmd0Doctest.scala
 $ exists target/scala-2.12/src_managed/test/READMEmd0Doctest.scala
 
