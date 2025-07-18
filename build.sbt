@@ -29,7 +29,7 @@ lazy val root = (project in file("."))
       "-Xlint:-unused,_"
     ),
     libraryDependencies ++= Seq(
-      "commons-io" % "commons-io" % "2.19.0",
+      "commons-io" % "commons-io" % "2.20.0",
       "org.apache.commons" % "commons-lang3" % "3.18.0",
       "org.scalameta" %% "scalameta" % "4.13.8",
       "com.lihaoyi" %% "utest" % "0.8.4" % Test,
