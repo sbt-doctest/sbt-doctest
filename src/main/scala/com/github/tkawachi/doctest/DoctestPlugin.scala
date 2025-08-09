@@ -121,7 +121,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
           dialects.Scala213Source3
       }
     },
-    doctestGenTests := {
+    doctestGenTests := Def.uncached {
       (Test / managedSourceDirectories).value.headOption match {
         case None =>
           streams.value.log.warn("DocTest: `Test/managedSourceDirectories` is empty. Failed to generate tests")
@@ -187,7 +187,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
       }
     },
     Test / sourceGenerators += doctestGenTests.taskValue,
-    watchSources ++= {
+    watchSources ++= Def.uncached {
       val pathFinder = doctestMarkdownPathFinder.value
       if (doctestMarkdownEnabled.value) {
         pathFinder.get().map(new Source(_, AllPassFilter, NothingFilter))
