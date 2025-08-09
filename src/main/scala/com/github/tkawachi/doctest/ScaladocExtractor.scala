@@ -4,15 +4,14 @@ import java.nio.file.Files
 import java.nio.file.Path
 import scala.meta._
 import scala.meta.contrib._
+import scala.meta.internal.Scaladoc
+import scala.meta.internal.parsers.ScaladocParser
 import scala.meta.parsers.Parse
 
 /**
  * Extract examples from scala source.
  */
 object ScaladocExtractor {
-
-  private val meaningfulDocTokenKinds: Set[DocToken.Kind] =
-    Set(DocToken.CodeBlock, DocToken.Description, DocToken.Example)
 
   def extract(scalaSource: String, dialect: Dialect): List[ScaladocComment] = {
     extractFromInput(Input.String(scalaSource), dialect)
@@ -58,21 +57,29 @@ object ScaladocExtractor {
       (t, comments.leading(t).filter(_.isScaladoc).toList) match {
         // take only named members having single scaladoc comment
         case (NamedMember(name), List(scalaDocComment)) if name.nonEmpty =>
-          scalaDocComment.docTokens.flatMap(_.filter(dt => meaningfulDocTokenKinds(dt.kind)) match {
+          ScaladocParser
+            .parse(scalaDocComment.value)
+            .toSeq
+            .flatMap(_.para.flatMap(_.terms))
+            .collect {
+              case c: Scaladoc.CodeBlock =>
+                c.code
+              case c: Scaladoc.MdCodeBlock =>
+                c.code
+            }
+            .flatten match {
             case Nil => None
             case docTokens =>
               Some(
                 ScaladocComment(
                   pkg = pkgOf(t),
                   symbol = name,
-                  codeBlocks = docTokens.collect {
-                    case DocToken(DocToken.CodeBlock, _, Some(body)) if body.trim.nonEmpty => body
-                  },
+                  codeBlocks = docTokens.filter(_.trim.nonEmpty).toList,
                   text = scalaDocComment.syntax,
                   lineNo = scalaDocComment.pos.startLine + 1 // startLine is 0 based, so compensating here
                 )
               )
-          })
+          }
         case _ => None
       }
 
