@@ -2,7 +2,7 @@ package com.github.tkawachi.doctest
 
 import java.io.File
 import org.apache.commons.io.FilenameUtils
-import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
+import org.apache.commons.text.StringEscapeUtils.unescapeHtml4
 import scala.meta.Dialect
 
 object ScaladocTestGenerator {
