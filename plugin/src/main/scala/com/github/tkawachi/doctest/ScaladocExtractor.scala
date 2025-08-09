@@ -4,15 +4,14 @@ import java.nio.file.Files
 import java.nio.file.Path
 import scala.meta.*
 import scala.meta.contrib.*
+import scala.meta.internal.Scaladoc
+import scala.meta.internal.parsers.ScaladocParser
 import scala.meta.parsers.Parse
 
 /**
  * Extract examples from scala source.
  */
 object ScaladocExtractor {
-
-  private val meaningfulDocTokenKinds: Set[DocToken.Kind] =
-    Set(DocToken.CodeBlock, DocToken.Description, DocToken.Example)
 
   def extract(scalaSource: String, dialect: Dialect): List[ScaladocComment] = {
     extractFromInput(Input.String(scalaSource), dialect)
@@ -58,21 +57,31 @@ object ScaladocExtractor {
       (t, comments.leading(t).filter(_.isScaladoc).toList) match {
         // take only named members having single scaladoc comment
         case (NamedMember(name), List(scalaDocComment)) if name.nonEmpty =>
-          scalaDocComment.docTokens.flatMap(_.filter(dt => meaningfulDocTokenKinds(dt.kind)) match {
+          ScaladocParser
+            .parse(s"/*${scalaDocComment.value}*/")
+            .toSeq
+            .flatMap(_.para.flatMap(_.terms))
+            .collect {
+              case c: Scaladoc.CodeBlock =>
+                Seq(c.code.map(_.trim).mkString("\n") -> true)
+              case c: Scaladoc.MdCodeBlock =>
+                Seq(c.code.map(_.trim).mkString("\n") -> true)
+              case c: Scaladoc.Text =>
+                c.parts.map(_.part.syntax).map(_ -> false)
+            }
+            .flatten match {
             case Nil => None
             case docTokens =>
               Some(
                 ScaladocComment(
                   pkg = pkgOf(t),
                   symbol = name,
-                  codeBlocks = docTokens.collect {
-                    case DocToken(DocToken.CodeBlock, _, Some(body)) if body.trim.nonEmpty => body
-                  },
+                  codeBlocks = docTokens.collect { case (c, true) if c.trim.nonEmpty => c.trim }.toList,
                   text = scalaDocComment.syntax,
                   lineNo = scalaDocComment.pos.startLine + 1 // startLine is 0 based, so compensating here
                 )
               )
-          })
+          }
         case _ => None
       }
 
