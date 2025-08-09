@@ -22,4 +22,8 @@ private[doctest] trait DoctestCompat { self: DoctestPlugin.type =>
     jarTypes = jarTypes,
     up = up
   )
+
+  implicit class DefOps(self: Def.type) {
+    def uncached[A](a: A): A = a
+  }
 }
