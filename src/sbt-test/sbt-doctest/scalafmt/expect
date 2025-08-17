@@ -1,0 +1,54 @@
+package sbt_doctest
+
+import _root_.org.scalacheck.Prop.{BooleanOperators as _, *}
+
+object `MainDoctest` extends _root_.org.scalacheck.Properties("Main.scala") {
+
+  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+    val _ = () => (a1, a2)
+  }
+  def sbtDoctestReplString(
+      any: _root_.scala.Any
+  ): _root_.scala.Predef.String = {
+    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+    if (s.headOption == Some('\n')) s.tail else s
+  }
+
+  include(new _root_.org.scalacheck.Properties("Main.scala:5: foo") {
+    property("example at line 7: { ...") = _root_.org.scalacheck.Prop.secure {
+      sbtDoctestTypeEquals({
+        enum A {
+          case B
+          case C
+        }
+        A.values.size
+      })(({
+        enum A {
+          case B
+          case C
+        }
+        A.values.size
+      }): Int)
+      val actual = sbtDoctestReplString({
+        enum A {
+          case B
+          case C
+        }
+        A.values.size
+      })
+      val expected = "2"
+      (actual == expected) :| s"'$actual' is not equal to '$expected'"
+    }
+
+    property("example at line 15: sbt_doctest.Main.X.values.toList") =
+      _root_.org.scalacheck.Prop.secure {
+        sbtDoctestTypeEquals(sbt_doctest.Main.X.values.toList)(
+          (sbt_doctest.Main.X.values.toList): List[Main.X]
+        )
+        val actual = sbtDoctestReplString(sbt_doctest.Main.X.values.toList)
+        val expected = "List(X1, X2, X3)"
+        (actual == expected) :| s"'$actual' is not equal to '$expected'"
+      }
+  })
+
+}
