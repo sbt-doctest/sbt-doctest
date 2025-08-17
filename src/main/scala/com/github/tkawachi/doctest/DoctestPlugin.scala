@@ -3,6 +3,7 @@ package com.github.tkawachi.doctest
 import java.nio.file.Path
 
 import org.apache.commons.io.FilenameUtils
+import org.scalafmt.interfaces.{Scalafmt, ScalafmtSession}
 import sbt.Keys._
 import sbt.{given, _}
 import sbt.internal.io.Source
@@ -62,11 +63,26 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
       settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
     val doctestOnlyCodeBlocksMode = settingKey[Boolean]("Whether to treat all code in Scaladocs as pure code blocks.")
     val doctestDialect = settingKey[Dialect]("dialect")
+    val doctestScalafmt = settingKey[Boolean]("format generated code by scalafmt")
 
     val DoctestTestFramework = self.DoctestTestFramework
   }
 
   import autoImport._
+
+  private val createScalafmtInstance: Def.Initialize[Task[Option[ScalafmtSession]]] =
+    Def.task {
+      if (doctestScalafmt.value) {
+        // https://github.com/scalameta/sbt-scalafmt/blob/e59fc02237374e6/plugin/src/main/scala/org/scalafmt/sbt/ScalafmtPlugin.scala#L42-L45
+        TaskKey[File]("scalafmtConfig").?.value.filter(_.isFile).map { conf =>
+          Scalafmt
+            .create(this.getClass.getClassLoader)
+            .createSession(conf.toPath)
+        }
+      } else {
+        None
+      }
+    }
 
   private def doctestScaladocGenTests(
       sources: Seq[File],
@@ -97,6 +113,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
    * Settings for test Generation.
    */
   val doctestGenSettings = Seq(
+    doctestScalafmt := true,
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestScalaTestVersion := (doctestScalaTestVersion ?? None).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
@@ -173,6 +190,9 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
           (scaladocTests ++ markdownTests)
             .groupBy(r => r.pkg -> r.basename)
             .flatMap { case ((pkg, basename), results) =>
+              if (results.nonEmpty) {
+                log.debug(s"format ${results.size} files")
+              }
               results.zipWithIndex.map { case (result, idx) =>
                 val writeBasename = if (idx == 0) basename else basename + idx
                 val writeDir = pkg.fold(testDir)(_.split("\\.").foldLeft(testDir) { (a: File, e: String) =>
@@ -180,6 +200,16 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
                 })
                 val writeFile = new File(writeDir, writeBasename + "Doctest.scala")
                 IO.write(writeFile, result.testSource)
+                createScalafmtInstance.value.foreach { fmt =>
+                  log.debug(s"format ${writeFile.getAbsolutePath}")
+                  IO.write(
+                    writeFile,
+                    fmt.format(
+                      writeFile.toPath,
+                      IO.read(writeFile)
+                    )
+                  )
+                }
                 writeFile
               }
             }

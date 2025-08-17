@@ -1,0 +1,4 @@
+> test
+> checkFormat
+> set doctestScalafmt := false
+> checkNoFormat
