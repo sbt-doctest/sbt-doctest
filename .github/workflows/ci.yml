@@ -27,5 +27,6 @@ jobs:
            "+ scalafmtCheckAll"
            "+ test"
            scripted
+           "++ 3.x"
            "scripted sbt-doctest/scala-3"
     - run: rm -rf "$HOME/.ivy2/local"
