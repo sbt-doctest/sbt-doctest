@@ -1,7 +1,7 @@
 lazy val root = (project in file("."))
   .settings(
     organization := "io.github.sbt-doctest",
-    crossScalaVersions += "3.7.2",
+    crossScalaVersions += "3.7.3",
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" =>
