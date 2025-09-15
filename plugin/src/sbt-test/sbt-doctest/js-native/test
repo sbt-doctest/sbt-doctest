@@ -1,0 +1,4 @@
+> test
+$ copy-file fail_src core/src/main/scala/Main.scala
+> Test/compile
+-> test

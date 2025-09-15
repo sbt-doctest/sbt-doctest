@@ -1,33 +1,121 @@
-lazy val root = (project in file("."))
+import ReleaseTransformations._
+import sbt.Def
+
+def Scala212 = "2.12.20"
+def Scala213 = "2.13.16"
+def Scala3 = "3.3.6"
+val scalaVersions = Seq(Scala213, Scala3)
+
+val commonSettings = Def.settings(
+  releaseProcess := Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    runClean,
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    releaseStepCommandAndRemaining("publishSigned"),
+    releaseStepCommandAndRemaining("sonaRelease"),
+    setNextVersion,
+    commitNextVersion,
+    pushChanges
+  ),
+  publishTo := (if (isSnapshot.value) None else localStaging.value),
+  pomExtra := {
+    <url>https://github.com/sbt-doctest/sbt-doctest/</url>
+    <developers>
+      <developer>
+        <id>kawachi</id>
+        <name>Takashi Kawachi</name>
+        <url>https://github.com/tkawachi</url>
+      </developer>
+      <developer>
+        <id>fthomas</id>
+        <name>Frank S. Thomas</name>
+        <url>https://github.com/fthomas</url>
+      </developer>
+      <developer>
+        <id>jozic</id>
+        <name>Eugene Platonov</name>
+        <url>https://github.com/jozic</url>
+      </developer>
+    </developers>
+  },
+  sbtPluginPublishLegacyMavenStyle := false,
+  organization := "io.github.sbt-doctest",
+  licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/sbt-doctest/sbt-doctest/"),
+      "scm:git:github.com:sbt-doctest/sbt-doctest.git"
+    )
+  ),
+  javacOptions ++= Seq("-encoding", "UTF-8"),
+  scalacOptions ++= Seq(
+    "-release:8",
+    "-deprecation",
+    "-encoding",
+    "UTF-8",
+    "-feature",
+    "-unchecked",
+    "-Xlint:-unused,_"
+  )
+)
+
+val runtimeBase = file("runtime")
+
+def platformSrcDir(x: String): Seq[Def.Setting[?]] = {
+  Def.settings(
+    Seq(Compile).map { c =>
+      c / unmanagedSourceDirectories += (
+        runtimeBase / "src" / Defaults.nameForSrc(c.name) / x
+      ).getAbsoluteFile
+    }
+  )
+}
+
+val jsNativeCommon = platformSrcDir(s"${VirtualAxis.js.directorySuffix}-${VirtualAxis.native.directorySuffix}")
+
+lazy val runtime = (projectMatrix in runtimeBase)
+  .defaultAxes()
+  .jvmPlatform(
+    scalaVersions = scalaVersions :+ Scala212,
+    settings = platformSrcDir(VirtualAxis.jvm.directorySuffix)
+  )
+  .jsPlatform(
+    scalaVersions = scalaVersions,
+    settings = jsNativeCommon
+  )
+  .nativePlatform(
+    scalaVersions = scalaVersions,
+    settings = jsNativeCommon
+  )
   .settings(
-    organization := "io.github.sbt-doctest",
-    crossScalaVersions += "3.7.2",
-    pluginCrossBuild / sbtVersion := {
-      scalaBinaryVersion.value match {
-        case "2.12" =>
-          sbtVersion.value
-        case _ =>
-          "2.0.0-RC4"
-      }
-    },
-    name := "sbt-doctest",
-    licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/sbt-doctest/sbt-doctest/"),
-        "scm:git:github.com:sbt-doctest/sbt-doctest.git"
+    commonSettings,
+    name := "doctest-runtime"
+  )
+
+lazy val plugin = (projectMatrix in file("plugin"))
+  .enablePlugins(SbtPlugin)
+  .jvmPlatform(
+    scalaVersions = Seq(Scala212, "3.7.2")
+  )
+  .settings(
+    commonSettings,
+    Compile / sourceGenerators += task {
+      val dir = (Compile / sourceManaged).value
+      val f = dir / "DoctestBuildInfo.scala"
+      IO.write(
+        f,
+        s"""|package com.github.tkawachi.doctest
+            |
+            |private[doctest] object DoctestBuildInfo {
+            |  def version: String = "${version.value}"
+            |}
+            |""".stripMargin
       )
-    ),
-    javacOptions ++= Seq("-encoding", "UTF-8"),
-    scalacOptions ++= Seq(
-      "-release:8",
-      "-deprecation",
-      "-encoding",
-      "UTF-8",
-      "-feature",
-      "-unchecked",
-      "-Xlint:-unused,_"
-    ),
+      Seq(f)
+    },
     libraryDependencies ++= Seq(
       "org.scalameta" % "scalafmt-interfaces" % "3.9.10",
       "commons-io" % "commons-io" % "2.20.0",
@@ -39,6 +127,22 @@ lazy val root = (project in file("."))
       "org.specs2" %% "specs2-scalacheck" % "4.21.0" % Test,
       "io.monix" %% "minitest-laws" % "2.9.6" % Test
     ),
-    testFrameworks += new TestFramework("utest.runner.Framework")
+    testFrameworks += new TestFramework("utest.runner.Framework"),
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          sbtVersion.value
+        case _ =>
+          "2.0.0-RC4"
+      }
+    },
+    name := "sbt-doctest",
+    scriptedLaunchOpts := {
+      scriptedLaunchOpts.value ++
+        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+    },
+    scriptedBufferLog := false
   )
-  .enablePlugins(SbtPlugin)
+
+commonSettings
+publish / skip := true
