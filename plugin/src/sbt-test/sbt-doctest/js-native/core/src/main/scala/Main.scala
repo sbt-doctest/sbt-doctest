@@ -1,0 +1,14 @@
+package sbt_doctest
+
+object Main {
+
+  /**
+   * {{{
+   * scala> (1 to 3).toList
+   * res0: List[Int] = List(1, 2, 3)
+   * scala> (1 to 3).toArray
+   * res0: Array[Int] = Array(1, 2, 3)
+   * }}}
+   */
+  def foo: Int = 0
+}
