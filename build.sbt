@@ -144,7 +144,7 @@ lazy val runtime = (projectMatrix in runtimeBase)
 lazy val plugin = (projectMatrix in file("plugin"))
   .enablePlugins(SbtPlugin)
   .jvmPlatform(
-    scalaVersions = Seq(Scala212, "3.7.2")
+    scalaVersions = Seq(Scala212, "3.7.3")
   )
   .settings(
     commonSettings,
