@@ -102,6 +102,9 @@ lazy val runtime = (projectMatrix in runtimeBase)
   )
   .settings(
     commonSettings,
+    libraryDependencies ++= Seq(
+      "org.scalatest" %%% "scalatest-funspec" % "3.2.19" % Test
+    ),
     name := "doctest-runtime"
   )
 
