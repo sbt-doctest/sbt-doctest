@@ -54,9 +54,9 @@ val commonSettings = Def.settings(
   scalacOptions ++= {
     scalaBinaryVersion.value match {
       case "2.12" =>
-        Nil
+        Seq("-Xsource:3")
       case "2.13" =>
-        Seq("-Wunused")
+        Seq("-Wunused", "-Xsource:3-cross")
       case _ =>
         Seq("-Wunused:all")
     }
