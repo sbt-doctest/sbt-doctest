@@ -123,8 +123,6 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
               Seq(
                 "io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version
               )
-            case _ =>
-              Nil
           }
         case _ =>
           Nil
