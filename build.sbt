@@ -66,7 +66,7 @@ val runtimeBase = file("runtime")
 
 def platformSrcDir(x: String): Seq[Def.Setting[?]] = {
   Def.settings(
-    Seq(Compile).map { c =>
+    Seq(Compile, Test).map { c =>
       c / unmanagedSourceDirectories ++= {
         val base = runtimeBase / x / "src" / Defaults.nameForSrc(c.name)
 
@@ -90,7 +90,12 @@ lazy val runtime = (projectMatrix in runtimeBase)
   .defaultAxes()
   .jvmPlatform(
     scalaVersions = scalaVersions,
-    settings = platformSrcDir(VirtualAxis.jvm.directorySuffix)
+    settings = Def.settings(
+      platformSrcDir(VirtualAxis.jvm.directorySuffix),
+      libraryDependencies ++= Seq(
+        "com.google.guava" % "guava" % "33.4.8-jre" % Test
+      )
+    )
   )
   .jsPlatform(
     scalaVersions = scalaVersions,
@@ -103,7 +108,8 @@ lazy val runtime = (projectMatrix in runtimeBase)
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest-funspec" % "3.2.19" % Test
+      "org.scalatest" %%% "scalatest-funspec" % "3.2.19" % Test,
+      "org.scala-lang.modules" %%% "scala-xml" % "2.4.0" % Test
     ),
     name := "doctest-runtime"
   )
