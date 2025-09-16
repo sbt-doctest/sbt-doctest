@@ -8,7 +8,6 @@ import sbt.Keys._
 import sbt.{given, _}
 import sbt.internal.io.Source
 import sbt.io.{AllPassFilter, NothingFilter}
-import sbt.plugins.JvmPlugin
 import scala.meta.Dialect
 import scala.meta.dialects
 

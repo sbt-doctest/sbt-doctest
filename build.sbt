@@ -51,14 +51,31 @@ val commonSettings = Def.settings(
     )
   ),
   javacOptions ++= Seq("-encoding", "UTF-8"),
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "2.12" =>
+        Nil
+      case "2.13" =>
+        Seq("-Wunused")
+      case _ =>
+        Seq("-Wunused:all")
+    }
+  },
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Nil
+      case _ =>
+        Seq("-Xlint")
+    }
+  },
   scalacOptions ++= Seq(
     "-release:8",
     "-deprecation",
     "-encoding",
     "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xlint:-unused,_"
+    "-unchecked"
   )
 )
 
