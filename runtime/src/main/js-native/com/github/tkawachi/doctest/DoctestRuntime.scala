@@ -1,21 +1,10 @@
 package com.github.tkawachi.doctest
 
-import scala.collection.{
-  AbstractIterator,
-  AnyConstr,
-  SortedOps,
-  StrictOptimizedIterableOps,
-  StringOps,
-  StringView,
-  View
-}
-import scala.collection.generic.IsIterable
-import scala.collection.immutable.{ArraySeq, NumericRange}
+import scala.collection.{SortedOps, StrictOptimizedIterableOps, StringOps, StringView, View}
+import scala.collection.immutable.NumericRange
 import scala.collection.mutable.StringBuilder
 import scala.math.min
-import scala.reflect.{ClassTag, classTag}
 import java.lang.{Class => jClass}
-import java.lang.reflect.{Method => JMethod}
 import scala.language.reflectiveCalls
 import scala.runtime.BoxedUnit
 
@@ -36,16 +25,15 @@ object DoctestRuntime {
     clazz.isArray && (atLevel == 1 || isArrayClass(clazz.getComponentType, atLevel - 1))
 
   private def stringOf(arg: Any, maxElements: Int): String = {
-    def packageOf(x: AnyRef) = ""
-
-    def isScalaClass(x: AnyRef) = packageOf(x) startsWith "scala."
-    def isScalaCompilerClass(x: AnyRef) = packageOf(x) startsWith "scala.tools.nsc."
+    def isScalaClass(x: AnyRef) = x.getClass.getName startsWith "scala."
+    def isScalaCompilerClass(x: AnyRef) = x.getClass.getName startsWith "scala.tools.nsc."
 
     // includes specialized subclasses and future proofed against hypothetical TupleN (for N > 22)
     def isTuple(x: Any) = x != null && x.getClass.getName.startsWith("scala.Tuple")
 
     // We use reflection because the scala.xml package might not be available
-    def isSubClassOf(potentialSubClass: Class[_], ofClass: String) = false
+    def isSubClassOf(potentialSubClass: Class[_], ofClass: String) =
+      potentialSubClass.getName == ofClass
 
     def isXmlNode(potentialSubClass: Class[_]) = isSubClassOf(potentialSubClass, "scala.xml.Node")
     def isXmlMetaData(potentialSubClass: Class[_]) = isSubClassOf(potentialSubClass, "scala.xml.MetaData")
