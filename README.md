@@ -8,13 +8,12 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.11.4")
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.12.0")
 ```
 
-This plugin supports sbt 1.x.
+This plugin supports sbt 1.x and 2.x.
 
-It's automatically enabled for JVM projects.
-Scala.js is currently not supported (See [#52](https://github.com/sbt-doctest/sbt-doctest/issues/52)).
+It's automatically enabled.
 
 sbt-doctest allows you to choose which test library to use by `doctestTestFramework`.
 By default, the tests are generated for ScalaCheck.
