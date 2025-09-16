@@ -67,6 +67,8 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
 
   import autoImport._
 
+  private val supportScalaBinaryVersions: Set[String] = Set("2.12", "2.13", "3")
+
   // https://github.com/scalameta/scalafmt/blob/b78a999c191d5afc955/scalafmt-dynamic/jvm/src/main/scala/org/scalafmt/dynamic/ConsoleScalafmtReporter.scala
   private class MyScalafmtReporter(log: Logger) extends org.scalafmt.interfaces.ScalafmtReporter {
     def downloadOutputStreamWriter(): java.io.OutputStreamWriter =
@@ -131,21 +133,20 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
    */
   val doctestGenSettings = Seq(
     libraryDependencies ++= {
-      // https://github.com/portable-scala/sbt-platform-deps/blob/1b9d7ef512546e8/src/main/scala/org/portablescala/sbtplatformdeps/PlatformDepsPlugin.scala#L20-L21
-      scalaBinaryVersion.value match {
-        case "2.12" | "2.13" | "3" =>
-          SettingKey[CrossVersion]("platformDepsCrossVersion").?.value match {
-            case Some(c) =>
-              Seq(
-                ("io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version).cross(c)
-              )
-            case None =>
-              Seq(
-                "io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version
-              )
-          }
-        case _ =>
-          Nil
+      if (supportScalaBinaryVersions(scalaBinaryVersion.value)) {
+        // https://github.com/portable-scala/sbt-platform-deps/blob/1b9d7ef512546e8/src/main/scala/org/portablescala/sbtplatformdeps/PlatformDepsPlugin.scala#L20-L21
+        SettingKey[CrossVersion]("platformDepsCrossVersion").?.value match {
+          case Some(c) =>
+            Seq(
+              ("io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version).cross(c)
+            )
+          case None =>
+            Seq(
+              "io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version
+            )
+        }
+      } else {
+        Nil
       }
     },
     doctestScalafmt := true,
@@ -159,10 +160,6 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
     doctestIgnoreRegex := None,
     doctestDialect := {
       scalaBinaryVersion.value match {
-        case "2.10" =>
-          dialects.Scala210
-        case "2.11" =>
-          dialects.Scala211
         case "2.12" =>
           dialects.Scala212Source3
         case "2.13" =>
@@ -249,6 +246,14 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
               }
             }
             .toSeq
+      }
+    },
+    doctestGenTests := {
+      if (supportScalaBinaryVersions(scalaBinaryVersion.value)) {
+        doctestGenTests.value
+      } else {
+        streams.value.log.warn(s"sbt-doctest does not support Scala ${scalaVersion.value}")
+        Nil
       }
     },
     Test / sourceGenerators += doctestGenTests.taskValue,
