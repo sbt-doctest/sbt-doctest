@@ -4,7 +4,7 @@ import sbt.Def
 def Scala212 = "2.12.20"
 def Scala213 = "2.13.16"
 def Scala3 = "3.3.6"
-val scalaVersions = Seq(Scala213, Scala3)
+val scalaVersions = Seq(Scala212, Scala213, Scala3)
 
 val commonSettings = Def.settings(
   releaseProcess := Seq[ReleaseStep](
@@ -67,9 +67,19 @@ val runtimeBase = file("runtime")
 def platformSrcDir(x: String): Seq[Def.Setting[?]] = {
   Def.settings(
     Seq(Compile).map { c =>
-      c / unmanagedSourceDirectories += (
-        runtimeBase / "src" / Defaults.nameForSrc(c.name) / x
-      ).getAbsoluteFile
+      c / unmanagedSourceDirectories ++= {
+        val base = runtimeBase / x / "src" / Defaults.nameForSrc(c.name)
+
+        Seq(
+          base / "scala",
+          scalaBinaryVersion.value match {
+            case "3" | "2.13" =>
+              base / "scala-2.13+"
+            case "2.12" =>
+              base / "scala-2.12"
+          }
+        ).map(_.getAbsoluteFile)
+      }
     }
   )
 }
@@ -79,7 +89,7 @@ val jsNativeCommon = platformSrcDir(s"${VirtualAxis.js.directorySuffix}-${Virtua
 lazy val runtime = (projectMatrix in runtimeBase)
   .defaultAxes()
   .jvmPlatform(
-    scalaVersions = scalaVersions :+ Scala212,
+    scalaVersions = scalaVersions,
     settings = platformSrcDir(VirtualAxis.jvm.directorySuffix)
   )
   .jsPlatform(
