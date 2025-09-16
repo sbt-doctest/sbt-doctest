@@ -24,4 +24,7 @@ class DoctestRuntimeSpec extends AnyFunSpec {
   it("Tuple") {
     assert(DoctestRuntime.replStringOf((1, Array(2), 3)) == "(1,Array(2),3)\n")
   }
+  it("xml") {
+    assert(DoctestRuntime.replStringOf(<a>b</a>) == "<a>b</a>\n")
+  }
 }

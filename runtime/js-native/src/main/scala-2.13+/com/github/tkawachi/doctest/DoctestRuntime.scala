@@ -31,12 +31,7 @@ object DoctestRuntime {
     // includes specialized subclasses and future proofed against hypothetical TupleN (for N > 22)
     def isTuple(x: Any) = x != null && x.getClass.getName.startsWith("scala.Tuple")
 
-    // We use reflection because the scala.xml package might not be available
-    def isSubClassOf(potentialSubClass: Class[_], ofClass: String) =
-      potentialSubClass.getName == ofClass
-
-    def isXmlNode(potentialSubClass: Class[_]) = isSubClassOf(potentialSubClass, "scala.xml.Node")
-    def isXmlMetaData(potentialSubClass: Class[_]) = isSubClassOf(potentialSubClass, "scala.xml.MetaData")
+    def isXml(potentialSubClass: Class[_]) = DoctestRuntimeCompat.xmlClassNames(potentialSubClass.getName)
 
     // When doing our own iteration is dangerous
     def useOwnToString(x: Any) = x match {
@@ -56,7 +51,7 @@ object DoctestRuntime {
       case x: Iterable[_] =>
         (!x.isInstanceOf[StrictOptimizedIterableOps[_, AnyConstr, _]]) || !isScalaClass(x) || isScalaCompilerClass(
           x
-        ) || isXmlNode(x.getClass) || isXmlMetaData(x.getClass)
+        ) || isXml(x.getClass)
       // Otherwise, nothing could possibly go wrong
       case _ => false
     }
