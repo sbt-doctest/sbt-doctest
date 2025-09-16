@@ -137,9 +137,8 @@ lazy val plugin = (projectMatrix in file("plugin"))
       }
     },
     name := "sbt-doctest",
-    scriptedLaunchOpts := {
-      scriptedLaunchOpts.value ++
-        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+    scriptedLaunchOpts ++= {
+      Seq("-Xmx4G", "-Dplugin.version=" + version.value)
     },
     scriptedBufferLog := false
   )
