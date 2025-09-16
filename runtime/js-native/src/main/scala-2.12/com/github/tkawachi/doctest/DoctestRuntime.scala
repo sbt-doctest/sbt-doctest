@@ -29,7 +29,6 @@ object DoctestRuntime {
    * @param   arg   the value to stringify
    * @return        a string representation of arg.
    */
-  private def stringOf(arg: Any): String = stringOf(arg, scala.Int.MaxValue)
   private def stringOf(arg: Any, maxElements: Int): String = {
     def isScalaClass(x: AnyRef) = x.getClass.getName startsWith "scala."
     def isScalaCompilerClass(x: AnyRef) = x.getClass.getName startsWith "scala.tools.nsc."
