@@ -81,8 +81,7 @@ object TestGen {
       |  val _ = () => (a1, a2)
       |}
       |def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-      |  val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-      |  if (s.headOption == Some('\n')) s.tail else s
+      |  _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
       |}""".stripMargin
 
   def importArbitrary(examples: Seq[ParsedDoctest]): String =
