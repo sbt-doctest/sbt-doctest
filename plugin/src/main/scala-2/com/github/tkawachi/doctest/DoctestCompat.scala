@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import sbt._
+import sbt.*
 
 private[doctest] trait DoctestCompat { self: DoctestPlugin.type =>
   def findScalaTestVersionFromScalaBinaryVersion(

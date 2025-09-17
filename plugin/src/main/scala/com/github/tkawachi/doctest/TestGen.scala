@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.StringUtil._
+import com.github.tkawachi.doctest.StringUtil.*
 
 /**
  * Interface of a test generator.

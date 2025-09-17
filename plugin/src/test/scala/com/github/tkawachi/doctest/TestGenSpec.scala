@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import utest._
+import utest.*
 
 object TestGenSpec extends TestSuite {
 

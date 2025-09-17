@@ -1,7 +1,7 @@
 package com.github.tkawachi.doctest
 
-import org.scalatest.funspec.AnyFunSpec
 import com.google.common.reflect.ClassPath
+import org.scalatest.funspec.AnyFunSpec
 
 class DoctestRuntimeCompatSpec extends AnyFunSpec {
   private lazy val allXmlClasses: List[Class[?]] = {

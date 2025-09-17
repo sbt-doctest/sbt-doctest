@@ -5,8 +5,8 @@ import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 import scala.meta.Input
-import utest._
 import scala.meta.dialects
+import utest.*
 
 object ScaladocExtractorSpec extends TestSuite {
 
