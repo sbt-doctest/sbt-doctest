@@ -37,8 +37,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |
@@ -87,8 +86,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |  describe("MyClass.scala:37: sumExample") {
@@ -135,8 +133,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |  describe("MyClass.scala:37: sumExample") {
@@ -183,8 +180,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |  implicit def toMatcher[T](t: T): _root_.org.specs2.matcher.Matcher[T] = _root_.org.specs2.matcher.AlwaysMatcher[T]()
@@ -231,8 +227,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |  include(new _root_.org.scalacheck.Properties("MyClass.scala:37: sumExample") {
@@ -280,8 +275,7 @@ object TestGenSpec extends TestSuite {
             |    val _ = () => (a1, a2)
             |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-            |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-            |    if (s.headOption == Some('\n')) s.tail else s
+            |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
             |  }
             |
             |  implicit def toVoid[A](ref: A)(implicit location: _root_.minitest.api.SourceLocation): _root_.minitest.api.Void =
@@ -325,8 +319,7 @@ object TestGenSpec extends TestSuite {
                              |    val _ = () => (a1, a2)
                              |  }
                              |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
-                             |    val s = _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-                             |    if (s.headOption == Some('\n')) s.tail else s
+                             |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
                              |  }
                              |
                              |  test("MyClass.scala:37: sumExample") {

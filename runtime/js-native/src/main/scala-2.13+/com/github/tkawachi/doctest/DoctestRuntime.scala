@@ -100,10 +100,12 @@ object DoctestRuntime {
     }
   }
 
-  def replStringOf(arg: Any): String =
-    stringOf(arg, 1000) match {
+  def replStringOf(arg: Any): String = {
+    val res = stringOf(arg, 1000) match {
       case null => "null toString"
-      case s if s.indexOf('\n') >= 0 => "\n" + s + "\n"
-      case s => s + "\n"
+      case s if s.indexOf('\n') >= 0 => "\n" + s
+      case s => s
     }
+    if (res.headOption.contains('\n')) res.drop(1) else res
+  }
 }

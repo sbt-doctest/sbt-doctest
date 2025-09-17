@@ -107,6 +107,7 @@ object DoctestRuntime {
     val s = stringOf(arg, 1000)
     val nl = if (s contains "\n") "\n" else ""
 
-    nl + s + "\n"
+    val res = nl + s
+    if (res.headOption.contains('\n')) res.drop(1) else res
   }
 }

@@ -10,9 +10,7 @@ object `MainDoctest` extends _root_.org.scalacheck.Properties("Main.scala") {
   def sbtDoctestReplString(
       any: _root_.scala.Any
   ): _root_.scala.Predef.String = {
-    val s =
-      _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any).init
-    if (s.headOption == Some('\n')) s.tail else s
+    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
   }
 
   include(new _root_.org.scalacheck.Properties("Main.scala:5: foo") {
