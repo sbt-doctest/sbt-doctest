@@ -110,7 +110,7 @@ lazy val runtime = (projectMatrix in runtimeBase)
     settings = Def.settings(
       platformSrcDir(VirtualAxis.jvm.directorySuffix),
       libraryDependencies ++= Seq(
-        "com.google.guava" % "guava" % "33.4.8-jre" % Test
+        "com.google.guava" % "guava" % "33.5.0-jre" % Test
       )
     )
   )
