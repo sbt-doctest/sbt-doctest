@@ -2,10 +2,8 @@ package com.github.tkawachi.doctest
 
 import java.io.File
 import java.nio.file.Path
-
-import scala.io.Source
-
 import scala.annotation.tailrec
+import scala.io.Source
 
 object MarkdownTestGenerator {
 

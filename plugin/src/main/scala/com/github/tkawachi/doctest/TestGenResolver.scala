@@ -1,12 +1,11 @@
 package com.github.tkawachi.doctest
 
 import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework
-import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework._
+import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework.*
 import sbt.Keys.Classpath
 import sbt.internal.util.MessageOnlyException
-import sbt.librarymanagement.ModuleID
 import sbt.librarymanagement.CrossVersion
-
+import sbt.librarymanagement.ModuleID
 import scala.util.Try
 
 object TestGenResolver {

@@ -2,8 +2,8 @@ package com.github.tkawachi.doctest
 
 import java.nio.file.Files
 import java.nio.file.Path
-import scala.meta._
-import scala.meta.contrib._
+import scala.meta.*
+import scala.meta.contrib.*
 import scala.meta.parsers.Parse
 
 /**

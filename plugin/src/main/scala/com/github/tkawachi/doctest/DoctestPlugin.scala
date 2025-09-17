@@ -1,13 +1,14 @@
 package com.github.tkawachi.doctest
 
 import java.nio.file.Path
-
 import org.apache.commons.io.FilenameUtils
-import org.scalafmt.interfaces.{Scalafmt, ScalafmtSession}
-import sbt.Keys._
-import sbt.{given, _}
+import org.scalafmt.interfaces.Scalafmt
+import org.scalafmt.interfaces.ScalafmtSession
+import sbt.Keys.*
 import sbt.internal.io.Source
-import sbt.io.{AllPassFilter, NothingFilter}
+import sbt.io.AllPassFilter
+import sbt.io.NothingFilter
+import sbt.{given, *}
 import scala.meta.Dialect
 import scala.meta.dialects
 
@@ -39,7 +40,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
     case object Minitest extends DoctestTestFramework
     case object Munit extends DoctestTestFramework
   }
-  import DoctestTestFramework._
+  import DoctestTestFramework.*
 
   override def trigger: PluginTrigger = allRequirements
 
@@ -64,7 +65,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
     val DoctestTestFramework = self.DoctestTestFramework
   }
 
-  import autoImport._
+  import autoImport.*
 
   private val supportScalaBinaryVersions: Set[String] = Set("2.12", "2.13", "3")
 

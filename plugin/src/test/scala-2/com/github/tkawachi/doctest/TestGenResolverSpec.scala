@@ -1,9 +1,9 @@
 package com.github.tkawachi.doctest
 
 import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework
+import sbt.*
 import sbt.Keys.moduleID
-import sbt._
-import utest._
+import utest.*
 
 object TestGenResolverSpec extends TestSuite {
   val tests = utest.Tests {

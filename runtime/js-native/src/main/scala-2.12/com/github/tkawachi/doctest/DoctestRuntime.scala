@@ -1,17 +1,19 @@
 package com.github.tkawachi.doctest
 
-import scala.collection.{TraversableView, GenIterable}
+import java.lang.Class as jClass
+import scala.collection.GenIterable
+import scala.collection.TraversableView
+import scala.collection.generic.Sorted
+import scala.collection.immutable.NumericRange
+import scala.collection.immutable.StringLike
 import scala.collection.mutable.WrappedArray
-import scala.collection.immutable.{StringLike, NumericRange}
-import scala.collection.generic.{Sorted}
 import scala.runtime.BoxedUnit
-import java.lang.{Class => jClass}
 
 object DoctestRuntime {
   private def isArray(x: Any, atLevel: Int = 1): Boolean =
     x != null && isArrayClass(x.getClass, atLevel)
 
-  private def isArrayClass(clazz: jClass[_], atLevel: Int): Boolean =
+  private def isArrayClass(clazz: jClass[?], atLevel: Int): Boolean =
     clazz.isArray && (atLevel == 1 || isArrayClass(clazz.getComponentType, atLevel - 1))
 
   /** Get generic array length */
@@ -36,24 +38,24 @@ object DoctestRuntime {
     // includes specialized subclasses and future proofed against hypothetical TupleN (for N > 22)
     def isTuple(x: Any) = x != null && x.getClass.getName.startsWith("scala.Tuple")
 
-    def isXml(potentialSubClass: Class[_]) = DoctestRuntimeCompat.xmlClassNames(potentialSubClass.getName)
+    def isXml(potentialSubClass: Class[?]) = DoctestRuntimeCompat.xmlClassNames(potentialSubClass.getName)
 
     // When doing our own iteration is dangerous
     def useOwnToString(x: Any) = x match {
       // Range/NumericRange have a custom toString to avoid walking a gazillion elements
-      case _: Range | _: NumericRange[_] => true
+      case _: Range | _: NumericRange[?] => true
       // Sorted collections to the wrong thing (for us) on iteration - ticket #3493
-      case _: Sorted[_, _] => true
+      case _: Sorted[?, ?] => true
       // StringBuilder(a, b, c) and similar not so attractive
-      case _: StringLike[_] => true
+      case _: StringLike[?] => true
       // Don't want to evaluate any elements in a view
-      case _: TraversableView[_, _] => true
+      case _: TraversableView[?, ?] => true
       // Node extends NodeSeq extends Seq[Node] and MetaData extends Iterable[MetaData]
       // -> catch those by isXmlNode and isXmlMetaData.
       // Don't want to a) traverse infinity or b) be overly helpful with peoples' custom
       // collections which may have useful toString methods - ticket #3710
       // or c) print AbstractFiles which are somehow also Iterable[AbstractFile]s.
-      case x: Traversable[_] =>
+      case x: Traversable[?] =>
         !x.hasDefiniteSize || !isScalaClass(x) || isScalaCompilerClass(x) || isXml(x.getClass)
       // Otherwise, nothing could possibly go wrong
       case _ => false
@@ -83,11 +85,11 @@ object DoctestRuntime {
       case x: String => if (x.head.isWhitespace || x.last.isWhitespace) "\"" + x + "\"" else x
       case x if useOwnToString(x) => x.toString
       case x: AnyRef if isArray(x) => arrayToString(x)
-      case x: scala.collection.Map[_, _] =>
+      case x: scala.collection.Map[?, ?] =>
         x.iterator take maxElements map mapInner mkString (x.stringPrefix + "(", ", ", ")")
-      case x: GenIterable[_] => x.iterator take maxElements map inner mkString (x.stringPrefix + "(", ", ", ")")
-      case x: Traversable[_] => x take maxElements map inner mkString (x.stringPrefix + "(", ", ", ")")
-      case x: Product1[_] if isTuple(x) => "(" + inner(x._1) + ",)" // that special trailing comma
+      case x: GenIterable[?] => x.iterator take maxElements map inner mkString (x.stringPrefix + "(", ", ", ")")
+      case x: Traversable[?] => x take maxElements map inner mkString (x.stringPrefix + "(", ", ", ")")
+      case x: Product1[?] if isTuple(x) => "(" + inner(x._1) + ",)" // that special trailing comma
       case x: Product if isTuple(x) => x.productIterator map inner mkString ("(", ",", ")")
       case x => x.toString
     }
