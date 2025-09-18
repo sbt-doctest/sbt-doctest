@@ -26,7 +26,6 @@ jobs:
            -J-Xmx4G
            "all scalafmtSbtCheck scalafmtCheckAll"
            test
-           publishLocal
            plugin2_12/scripted
            "plugin3/scripted sbt-doctest/scala-3"
     - run: rm -rf "$HOME/.ivy2/local"
