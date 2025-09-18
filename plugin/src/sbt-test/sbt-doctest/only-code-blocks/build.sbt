@@ -1,11 +1,48 @@
 import java.nio.charset.StandardCharsets
 
-import complete.DefaultParsers._
-
 crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
 scalacOptions := Seq("-Ywarn-dead-code")
 Test / scalacOptions -= "-Ywarn-dead-code"
+
+InputKey[Unit]("check") := {
+  val expect = sbtBinaryVersion.value match {
+    case "1.0" =>
+      Set(
+        s"target/scala-2.12/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/scala-2.12/src_managed/test/READMEmd0Doctest.scala",
+        s"target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/scala-2.13/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/scala-2.13/src_managed/test/READMEmd0Doctest.scala",
+        s"target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/scala-3.3.6/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/scala-3.3.6/src_managed/test/READMEmd0Doctest.scala",
+        s"target/scala-3.3.6/src_managed/test/sbt_doctest/MainDoctest.scala"
+      )
+    case "2" =>
+      Set(
+        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-2.13.16/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-2.13.16/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-2.13.16/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"
+      )
+  }
+  val actual = sbt.io
+    .PathFinder(file("target"))
+    .allPaths
+    .filter(_.getName.endsWith(".scala"))
+    .get()
+    .flatMap(
+      IO.relativize(baseDirectory.value, _)
+    )
+    .toSet
+  assert(actual == expect, s"${actual.toSeq.sorted} != ${expect.toSeq.sorted}")
+}
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
@@ -23,3 +60,9 @@ doctestOnlyCodeBlocksMode := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
+
+InputKey[Unit]("cleanFull") := {
+  clean.value
+  // https://github.com/sbt/sbt/blob/0cef94b1d534cf3f6/main/src/main/scala/sbt/Keys.scala#L442
+  SettingKey[File]("localCacheDirectory").?.value.foreach(IO.delete)
+}
