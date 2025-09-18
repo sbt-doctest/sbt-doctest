@@ -1,7 +1,5 @@
 crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
-javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
-
 scalacOptions := Seq("-Ywarn-dead-code")
 Test / scalacOptions -= "-Ywarn-dead-code"
 
