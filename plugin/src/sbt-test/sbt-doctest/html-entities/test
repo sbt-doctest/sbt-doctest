@@ -1,49 +1,47 @@
 > show libraryDependencies
-> clean
+> cleanFull
 > + Test/compile
 
-$ exists target/scala-3.3.6/src_managed/test/sbt_doctest/MainDoctest.scala
-$ exists target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
-$ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
+> check
 
 # Try with utest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.MicroTest
 > doctestTestFramework
 > + test
  
 # Try with scalatest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.ScalaTest
 > doctestTestFramework
 > + test
  
 # Try with specs2
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Specs2
 > doctestTestFramework
 > + test
  
 # Try with scalacheck
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
 > doctestTestFramework
 > + test
 
 # Try with minitest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Minitest
 > doctestTestFramework
 > + test
 
 # Try with munit
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Munit
 > doctestTestFramework
 > + test
