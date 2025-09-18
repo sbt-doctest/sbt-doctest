@@ -27,5 +27,5 @@ jobs:
            "all scalafmtSbtCheck scalafmtCheckAll"
            test
            plugin2_12/scripted
-           "plugin3/scripted sbt-doctest/scala-3 sbt-doctest/scalatest31"
+           "plugin3/scripted sbt-doctest/scala-3 sbt-doctest/scalatest31 sbt-doctest/scalatest30"
     - run: rm -rf "$HOME/.ivy2/local"
