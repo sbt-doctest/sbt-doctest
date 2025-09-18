@@ -12,12 +12,23 @@ libraryDependencies ++= Seq(
 
 doctestTestFramework := DoctestTestFramework.ScalaTest
 
-val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
-
-existsInFile := {
-  val Seq(searchKey, fileName) = spaceDelimited("<arg>").parsed
-  val fileContent = IO.read(file(fileName), StandardCharsets.UTF_8)
-  if (!fileContent.contains(searchKey)) {
-    sys.error(s"$searchKey doesn't exist in $fileName")
+InputKey[Unit]("check") := {
+  val (f1, f2) = sbtBinaryVersion.value match {
+    case "2" =>
+      (
+        file(s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"),
+        file(s"target/out/jvm/scala-2.13.16/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala")
+      )
+    case "1.0" =>
+      (
+        file("target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala"),
+        file("target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala")
+      )
   }
+
+  assert(f1.isFile)
+  assert(f2.isFile)
+  val checkerLine = "with _root_.org.scalatestplus.scalacheck.Checkers"
+  assert(IO.read(f1).contains(checkerLine))
+  assert(IO.read(f2).contains(checkerLine))
 }
