@@ -173,6 +173,10 @@ lazy val plugin = (projectMatrix in file("plugin"))
       }
     },
     name := "sbt-doctest",
+    scriptedDependencies := {
+      val s = state.value
+      Project.extract(s).runAggregated(LocalRootProject / publishLocal, s)
+    },
     scriptedLaunchOpts ++= {
       Seq("-Xmx4G", "-Dplugin.version=" + version.value)
     },
