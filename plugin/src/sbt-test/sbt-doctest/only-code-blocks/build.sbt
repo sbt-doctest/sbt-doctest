@@ -25,13 +25,3 @@ doctestOnlyCodeBlocksMode := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
-
-val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
-
-existsInFile := {
-  val Seq(searchKey, fileName) = spaceDelimited("<arg>").parsed
-  val fileContent = IO.read(file(fileName), StandardCharsets.UTF_8)
-  if (!fileContent.contains(searchKey)) {
-    sys.error(s"$searchKey doesn't exist in $fileName")
-  }
-}
