@@ -177,6 +177,25 @@ lazy val plugin = (projectMatrix in file("plugin"))
       val s = state.value
       Project.extract(s).runAggregated(LocalRootProject / publishLocal, s)
     },
+    TaskKey[Unit]("scriptedTestSbt2") := Def.taskDyn {
+      val values = sbtTestDirectory.value
+        .listFiles(_.isDirectory)
+        .flatMap { dir1 =>
+          dir1.listFiles(_.isDirectory).map { dir2 =>
+            dir1.getName -> dir2.getName
+          }
+        }
+        .toList
+      val log = streams.value.log
+      val exclude: Set[(String, String)] = Set(
+        "js-native",
+        "scalafmt"
+      ).map("sbt-doctest" -> _)
+      val args = values.filterNot(exclude).map { case (x1, x2) => s"${x1}/${x2}" }
+      val arg = args.mkString(" ", " ", "")
+      log.info("scripted" + arg)
+      scripted.toTask(arg)
+    }.value,
     scriptedLaunchOpts ++= {
       Seq("-Xmx4G", "-Dplugin.version=" + version.value)
     },
