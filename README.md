@@ -8,7 +8,7 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.12.0")
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.12.1")
 ```
 
 This plugin supports sbt 1.x and 2.x.
