@@ -1,7 +1,5 @@
 import java.nio.charset.StandardCharsets
 
-import complete.DefaultParsers._
-
 crossScalaVersions := Seq("2.12.20", "2.13.16")
 
 // Declares scalatest, scalacheck dependencies explicitly.
