@@ -138,11 +138,11 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
         SettingKey[CrossVersion]("platformDepsCrossVersion").?.value match {
           case Some(c) =>
             Seq(
-              ("io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version).cross(c)
+              ("io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version).cross(c) % Test
             )
           case None =>
             Seq(
-              "io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version
+              "io.github.sbt-doctest" %% "doctest-runtime" % DoctestBuildInfo.version % Test
             )
         }
       } else {
