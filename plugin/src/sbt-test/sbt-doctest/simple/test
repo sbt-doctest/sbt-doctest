@@ -1,21 +1,12 @@
 > show libraryDependencies
-> clean
+> cleanFull
 > + Test/compile
- 
-$ exists target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
-$ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
-$ absent target/scala-2.13/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
-$ absent target/scala-2.12/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
-$ exists target/scala-2.13/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
-$ exists target/scala-2.12/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
-$ exists target/scala-2.13/src_managed/test/READMEmd0Doctest.scala
-$ exists target/scala-2.12/src_managed/test/READMEmd0Doctest.scala
-$ absent target/scala-2.13/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
-$ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
+
+> check
 
 # Try with utest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.MicroTest
 > doctestTestFramework
 > + test
@@ -24,17 +15,17 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 
 # Try with scalatest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.ScalaTest
 > doctestTestFramework
 > + test
-> existsInFile "with _root_.org.scalatestplus.scalacheck.Checkers" target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
+> checkScalatestPlugScalacheck
 > set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
 -> +test
 
 # Try with specs2
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Specs2
 > doctestTestFramework
 > + test
@@ -43,7 +34,7 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 
 # Try with scalacheck
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
 > doctestTestFramework
 > + test
@@ -52,7 +43,7 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 
 # Try with minitest
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Minitest
 > doctestTestFramework
 > + test
@@ -61,7 +52,7 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 
 # Try with munit
 > reload
-> clean
+> cleanFull
 > set doctestTestFramework := DoctestTestFramework.Munit
 > doctestTestFramework
 > + test
