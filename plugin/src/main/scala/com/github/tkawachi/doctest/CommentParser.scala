@@ -135,7 +135,7 @@ object CommentParser extends PythonStyleParser with ReplStyleParser with Propert
       case Success(examples, _) =>
         Right(ParsedDoctest(comment.pkg, comment.symbol, examples, comment.lineNo))
 
-      case NoSuccess(msg, next) =>
+      case NoSuccess.I(msg, next) =>
         Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
     }
 }
@@ -155,7 +155,7 @@ object CodeblockParser extends PythonStyleParser with ReplStyleParser with Prope
       case Success(examples, _) =>
         Right(ParsedDoctest(None, "", examples, codeblock.lineNo))
 
-      case NoSuccess(msg, next) =>
+      case NoSuccess.I(msg, next) =>
         Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
     }
 
