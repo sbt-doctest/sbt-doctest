@@ -33,7 +33,7 @@ object ScaladocTestGenerator {
             else
               Some(ParsedDoctest(comment.pkg, comment.symbol, comment.codeBlocks.map(Verbatim.apply), comment.lineNo))
           else
-            CommentParser(comment).right.toOption
+            CommentParser(comment).toOption
         docTest.filter(_.components.nonEmpty)
       }
       .groupBy(_.pkg)
