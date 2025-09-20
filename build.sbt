@@ -153,7 +153,6 @@ lazy val plugin = (projectMatrix in file("plugin"))
       Seq(f)
     },
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parser-combinators" % "2.4.0",
       "org.scalameta" % "scalafmt-interfaces" % "3.9.10",
       "commons-io" % "commons-io" % "2.20.0",
       "org.apache.commons" % "commons-text" % "1.14.0",
