@@ -101,7 +101,17 @@ def platformSrcDir(x: String): Seq[Def.Setting[?]] = {
   )
 }
 
-val jsNativeCommon = platformSrcDir(s"${VirtualAxis.js.directorySuffix}-${VirtualAxis.native.directorySuffix}")
+val jsNativeCommon = Def.settings(
+  platformSrcDir(s"${VirtualAxis.js.directorySuffix}-${VirtualAxis.native.directorySuffix}"),
+  scalacOptions ++= {
+    scalaBinaryVersion.value match {
+      case "3" =>
+        Seq("-Wconf:msg=reflectiveSelectableFromLangReflectiveCalls:silent")
+      case _ =>
+        Nil
+    }
+  }
+)
 
 lazy val runtime = (projectMatrix in runtimeBase)
   .defaultAxes()
