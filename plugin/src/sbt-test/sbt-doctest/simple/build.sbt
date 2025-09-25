@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "scalacheck-1-18" % "3.2.19.0" % Test,
   "org.scalacheck" %% "scalacheck" % "1.19.0" % Test,
   "io.monix" %% "minitest-laws" % "2.9.6" % Test,
-  "org.specs2" %% "specs2-scalacheck" % "4.21.0" % Test,
+  "org.specs2" %% "specs2-scalacheck" % "4.22.0" % Test,
   "org.scalameta" %% "munit-scalacheck" % "0.7.29" % Test
 )
 
