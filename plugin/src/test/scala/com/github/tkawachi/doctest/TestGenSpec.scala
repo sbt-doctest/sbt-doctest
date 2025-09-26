@@ -322,6 +322,11 @@ object TestGenSpec extends TestSuite {
                              |    _root_.com.github.tkawachi.doctest.DoctestRuntime.replStringOf(any)
                              |  }
                              |
+                             |  property("property at line 38: (i: Int) => i + i == i * 2") {
+                             |    forAll((i: Int) => i + i == i * 2)
+                             |  }
+                             |
+                             |
                              |  test("MyClass.scala:37: sumExample") {
                              |    import scala.util.Random
                              |
@@ -332,11 +337,6 @@ object TestGenSpec extends TestSuite {
                              |    val i = 17
                              |
                              |    val j = 19 + i
-                             |
-                             |  property("property at line 38: (i: Int) => i + i == i * 2") {
-                             |    forAll((i: Int) => i + i == i * 2)
-                             |  }
-                             |
                              |  }
                              |
                              |}
