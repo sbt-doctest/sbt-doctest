@@ -42,22 +42,36 @@ trait TestGen {
       }
       .mkString("\n\n")
 
-  private def componentLine(firstLine: Int, component: DoctestComponent): String = {
-    def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def mkStub(s: String): String = escape(truncate(s))
+  private def absLine(firstLine: Int, lineNo: Int): Int = firstLine + lineNo - 1
+  private def mkStub(s: String): String = escape(truncate(s))
 
+  protected def componentLineExample(firstLine: Int, component: Example): String = {
+    val description = s"example at line ${absLine(firstLine, component.lineNo)}: ${mkStub(component.expr)}"
+    val typeTestLine =
+      component.expected.tpe.fold("")(tpe => s"sbtDoctestTypeEquals(${component.expr})((${component.expr}): $tpe)")
+    val assertTestLine =
+      generateAssert(s"      sbtDoctestReplString(${component.expr})", escape(component.expected.value))
+    // !!! assertTestLine must be last b/c of Specs2 !!!
+    generateExample(description, s"$typeTestLine\n$assertTestLine")
+  }
+
+  protected def componentLineProperty(firstLine: Int, component: Property): String = {
+    val description = s"property at line ${absLine(firstLine, component.lineNo)}: ${mkStub(component.prop)}"
+    generatePropertyExample(description, component.prop)
+  }
+
+  protected def componentLineVerbatim(firstLine: Int, component: Verbatim): String = {
+    indent(component.code, "    ")
+  }
+
+  protected def componentLine(firstLine: Int, component: DoctestComponent): String = {
     component match {
-      case Example(expr, expected, lineNo) =>
-        val description = s"example at line ${absLine(lineNo)}: ${mkStub(expr)}"
-        val typeTestLine = expected.tpe.fold("")(tpe => s"sbtDoctestTypeEquals($expr)(($expr): $tpe)")
-        val assertTestLine = generateAssert(s"      sbtDoctestReplString($expr)", escape(expected.value))
-        // !!! assertTestLine must be last b/c of Specs2 !!!
-        generateExample(description, s"$typeTestLine\n$assertTestLine")
-      case Property(prop, lineNo) =>
-        val description = s"property at line ${absLine(lineNo)}: ${mkStub(prop)}"
-        generatePropertyExample(description, prop)
-      case Verbatim(code) =>
-        indent(code, "    ")
+      case x: Example =>
+        componentLineExample(firstLine, x)
+      case x: Property =>
+        componentLineProperty(firstLine, x)
+      case x: Verbatim =>
+        componentLineVerbatim(firstLine, x)
     }
   }
 
