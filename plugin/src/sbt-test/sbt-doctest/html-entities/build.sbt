@@ -1,8 +1,5 @@
 crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
-scalacOptions := Seq("-Ywarn-dead-code")
-Test / scalacOptions -= "-Ywarn-dead-code"
-
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "utest" % "0.8.4" % Test,

@@ -2,9 +2,6 @@ import java.nio.charset.StandardCharsets
 
 crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
 
-scalacOptions := Seq("-Ywarn-dead-code")
-Test / scalacOptions -= "-Ywarn-dead-code"
-
 InputKey[Unit]("check") := {
   val expect = sbtBinaryVersion.value match {
     case "1.0" =>
