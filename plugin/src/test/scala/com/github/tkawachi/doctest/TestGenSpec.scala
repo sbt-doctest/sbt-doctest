@@ -65,7 +65,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = MicroTestGen.generate(baseName, pkg, parsed)
+        val generated = MicroTestGen.generate(baseName, pkg, parsed, false)
         assert(generated == expectedTest)
       }
     }
@@ -111,7 +111,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = ScalaTest30Gen.generate(baseName, pkg, parsed)
+        val generated = ScalaTest30Gen.generate(baseName, pkg, parsed, false)
 
         assert(generated == expectedTest)
       }
@@ -158,7 +158,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = ScalaTest31Gen.generate(baseName, pkg, parsed)
+        val generated = ScalaTest31Gen.generate(baseName, pkg, parsed, false)
 
         assert(generated == expectedTest)
       }
@@ -185,10 +185,10 @@ object TestGenSpec extends TestSuite {
             |
             |  implicit def toMatcher[T](t: T): _root_.org.specs2.matcher.Matcher[T] = _root_.org.specs2.matcher.AlwaysMatcher[T]()
             |
-            |  "MyClass.scala:37: sumExample" must {
+            |  "MyClass.scala:37: sumExample" >> {
             |    import scala.util.Random
             |
-            |    "example at line 39: List(1,2,3).sum" in {
+            |    "example at line 39: List(1,2,3).sum" >> {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
             |      sbtDoctestReplString(List(1,2,3).sum) must_== "6"
             |    }
@@ -205,7 +205,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = Specs2TestGen.generate(baseName, pkg, parsed)
+        val generated = Specs2TestGen.generate(baseName, pkg, parsed, false)
 
         assert(generated == expectedTest)
       }
@@ -252,7 +252,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = ScalaCheckGen.generate(baseName, pkg, parsed)
+        val generated = ScalaCheckGen.generate(baseName, pkg, parsed, false)
 
         assert(generated == expectedTest)
       }
@@ -299,7 +299,7 @@ object TestGenSpec extends TestSuite {
             |}
             |""".stripMargin
 
-        val generated = MinitestGen.generate(baseName, pkg, parsed)
+        val generated = MinitestGen.generate(baseName, pkg, parsed, false)
 
         assert(generated == expectedTest)
       }
@@ -341,7 +341,7 @@ object TestGenSpec extends TestSuite {
                              |
                              |}
                              |""".stripMargin
-        val generated = MunitGen.generate(baseName, pkg, parsed)
+        val generated = MunitGen.generate(baseName, pkg, parsed, false)
         assert(generated == expectedTest)
       }
     }

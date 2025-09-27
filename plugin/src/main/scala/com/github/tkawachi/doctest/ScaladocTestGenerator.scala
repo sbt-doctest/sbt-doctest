@@ -38,7 +38,7 @@ object ScaladocTestGenerator {
       }
       .groupBy(_.pkg)
       .map { case (pkg, examples) =>
-        TestSource(pkg, basename, testGen.generate(basename, pkg, examples))
+        TestSource(pkg, basename, testGen.generate(basename, pkg, examples, onlyCodeBlocksMode))
       }
       .toSeq
   }

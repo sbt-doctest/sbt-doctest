@@ -11,7 +11,11 @@ object MunitGen extends TestGen {
        |""".stripMargin
   } else "import _root_.munit._"
 
-  override protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
+  override protected def testCasesLine(
+      basename: String,
+      parsedList: Seq[ParsedDoctest],
+      onlyCodeblocks: Boolean
+  ): String =
     parsedList
       .map { doctest =>
         val testName = escape(s"$basename.scala:${doctest.lineNo}: ${doctest.symbol}")
@@ -22,7 +26,7 @@ object MunitGen extends TestGen {
             )
           case x: Example =>
             Right(
-              componentLineExample(doctest.lineNo, x)
+              componentLineExample(doctest.lineNo, x, onlyCodeblocks)
             )
           case x: Property =>
             Left(
@@ -33,7 +37,7 @@ object MunitGen extends TestGen {
         val other = testBody.collect { case Right(x) => x }.mkString("\n\n")
         Seq(
           properties,
-          generateTestCase(testName, other)
+          generateTestCase(testName, other, onlyCodeblocks)
         ).mkString("\n\n")
       }
       .mkString("\n\n")
@@ -42,13 +46,13 @@ object MunitGen extends TestGen {
     if (TestGen.containsProperty(parsedList)) s"class `${basename}Doctest` extends ScalaCheckSuite"
     else s"class `${basename}Doctest` extends FunSuite"
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String = {
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
     s"""  test("$caseName") {
        |$caseBody
        |  }""".stripMargin
   }
 
-  override protected def generateExample(description: String, assertions: String): String = {
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String = {
     s"""    //$description
        |    $assertions""".stripMargin
   }

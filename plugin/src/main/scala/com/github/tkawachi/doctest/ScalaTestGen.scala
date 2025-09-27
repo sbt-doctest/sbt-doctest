@@ -18,13 +18,13 @@ trait ScalaTestGen extends TestGen {
        |    $withCheckers""".stripMargin
   }
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String = {
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
     s"""  describe("$caseName") {
        |$caseBody
        |  }""".stripMargin
   }
 
-  override protected def generateExample(description: String, assertions: String): String =
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String =
     s"""    it("$description") {
        |      $assertions
        |    }""".stripMargin
