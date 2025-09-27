@@ -26,13 +26,13 @@ object MinitestGen extends TestGen {
        |    $apiPkg.Void.UnitRef""".stripMargin
   }
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String = {
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
     s"""  test("$caseName") {
        |$caseBody
        |  }""".stripMargin
   }
 
-  override protected def generateExample(description: String, assertions: String): String =
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String =
     s"""    //$description
        |    $assertions""".stripMargin
 

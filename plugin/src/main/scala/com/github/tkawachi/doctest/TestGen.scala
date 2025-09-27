@@ -10,7 +10,7 @@ trait TestGen {
       basename: String,
       pkg: Option[String],
       parsedList: Seq[ParsedDoctest],
-      onlyCodeblocks: Boolean = false
+      onlyCodeblocks: Boolean
   ): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
@@ -21,7 +21,7 @@ trait TestGen {
        |
        |$helperMethodsLine
        |
-       |${testCasesLine(basename, parsedList)}
+       |${testCasesLine(basename, parsedList, onlyCodeblocks)}
        |
        |}
        |""".stripMargin
@@ -33,26 +33,27 @@ trait TestGen {
 
   protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String
 
-  protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
+  protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest], onlyCodeblocks: Boolean): String =
     parsedList
       .map { doctest =>
         val testName = escape(s"$basename.scala:${doctest.lineNo}: ${doctest.symbol}")
-        val testBody = doctest.components.map(componentLine(doctest.lineNo, _)).mkString("\n\n")
-        generateTestCase(testName, testBody)
+        val testBody =
+          doctest.components.map(componentLine(doctest.lineNo, _, onlyCodeblocks: Boolean)).mkString("\n\n")
+        generateTestCase(testName, testBody, onlyCodeblocks)
       }
       .mkString("\n\n")
 
   private def absLine(firstLine: Int, lineNo: Int): Int = firstLine + lineNo - 1
   private def mkStub(s: String): String = escape(truncate(s))
 
-  protected def componentLineExample(firstLine: Int, component: Example): String = {
+  protected def componentLineExample(firstLine: Int, component: Example, onlyCodeblocks: Boolean): String = {
     val description = s"example at line ${absLine(firstLine, component.lineNo)}: ${mkStub(component.expr)}"
     val typeTestLine =
       component.expected.tpe.fold("")(tpe => s"sbtDoctestTypeEquals(${component.expr})((${component.expr}): $tpe)")
     val assertTestLine =
       generateAssert(s"      sbtDoctestReplString(${component.expr})", escape(component.expected.value))
     // !!! assertTestLine must be last b/c of Specs2 !!!
-    generateExample(description, s"$typeTestLine\n$assertTestLine")
+    generateExample(description, s"$typeTestLine\n$assertTestLine", onlyCodeblocks)
   }
 
   protected def componentLineProperty(firstLine: Int, component: Property): String = {
@@ -64,10 +65,10 @@ trait TestGen {
     indent(component.code, "    ")
   }
 
-  protected def componentLine(firstLine: Int, component: DoctestComponent): String = {
+  protected def componentLine(firstLine: Int, component: DoctestComponent, onlyCodeblocks: Boolean): String = {
     component match {
       case x: Example =>
-        componentLineExample(firstLine, x)
+        componentLineExample(firstLine, x, onlyCodeblocks)
       case x: Property =>
         componentLineProperty(firstLine, x)
       case x: Verbatim =>
@@ -75,9 +76,9 @@ trait TestGen {
     }
   }
 
-  protected def generateTestCase(caseName: String, caseBody: String): String
+  protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String
 
-  protected def generateExample(description: String, assertions: String): String
+  protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String
 
   protected def generatePropertyExample(description: String, property: String): String
 

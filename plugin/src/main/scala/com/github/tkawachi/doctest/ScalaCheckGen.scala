@@ -19,12 +19,12 @@ object ScalaCheckGen extends TestGen {
        |$importProp""".stripMargin
   }
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String =
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String =
     s"""  include(new _root_.org.scalacheck.Properties("$caseName") {
          |$caseBody
          |  })""".stripMargin
 
-  override protected def generateExample(description: String, assertions: String): String =
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String =
     s"""    property("$description") = _root_.org.scalacheck.Prop.secure {
        |      $assertions
        |    }""".stripMargin

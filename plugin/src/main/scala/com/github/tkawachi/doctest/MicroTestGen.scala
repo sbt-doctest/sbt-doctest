@@ -11,19 +11,23 @@ object MicroTestGen extends TestGen {
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
     s"object `${basename}Doctest` extends TestSuite"
 
-  override protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
+  override protected def testCasesLine(
+      basename: String,
+      parsedList: Seq[ParsedDoctest],
+      onlyCodeblocks: Boolean
+  ): String =
     s"""
        | val tests = this {
-       |${super.testCasesLine(basename, parsedList)}
+       |${super.testCasesLine(basename, parsedList, onlyCodeblocks)}
        | }""".stripMargin
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String = {
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
     s"""  "$caseName" - {
        |$caseBody
        |  }""".stripMargin
   }
 
-  override protected def generateExample(description: String, assertions: String): String = {
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String = {
     s"""    "$description"-{
        |      $assertions
        |    }""".stripMargin

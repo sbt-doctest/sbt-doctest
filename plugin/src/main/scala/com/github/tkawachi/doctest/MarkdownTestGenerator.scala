@@ -39,7 +39,7 @@ object MarkdownTestGenerator {
       .flatMap(codeblock => CodeblockParser(codeblock).toOption.filter(_.components.nonEmpty))
       .groupBy(_.pkg)
       .map { case (pkg, examples) =>
-        TestSource(pkg, generatedClassName, testGen.generate(generatedClassName, pkg, examples))
+        TestSource(pkg, generatedClassName, testGen.generate(generatedClassName, pkg, examples, false))
       }
       .toSeq
   }

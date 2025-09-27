@@ -23,15 +23,19 @@ object Specs2TestGen extends TestGen {
        |  implicit def toMatcher[T](t: T): $MatcherPackage.Matcher[T] = $MatcherPackage.AlwaysMatcher[T]()""".stripMargin
   }
 
-  override protected def generateTestCase(caseName: String, caseBody: String): String =
-    s"""  "$caseName" must {
+  override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
+    val x = if (onlyCodeblocks) "must" else ">>"
+    s"""  "$caseName" $x {
        |$caseBody
        |  }""".stripMargin
+  }
 
-  override protected def generateExample(description: String, assertions: String): String =
-    s"""    "$description" in {
+  override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String = {
+    val x = if (onlyCodeblocks) "in" else ">>"
+    s"""    "$description" $x {
        |      $assertions
        |    }""".stripMargin
+  }
 
   override protected def generatePropertyExample(description: String, property: String): String =
     s"""    "$description" ! prop {
