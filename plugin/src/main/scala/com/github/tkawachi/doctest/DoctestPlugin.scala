@@ -67,6 +67,22 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
 
   import autoImport.*
 
+  @transient
+  private val doctestScalafmtInstance = taskKey[Option[ScalafmtSession]]("").withRank(KeyRanks.Invisible)
+
+  override lazy val buildSettings: Seq[Setting[?]] = Def.settings(
+    doctestScalafmtInstance := {
+      val log = streams.value.log
+      // https://github.com/scalameta/sbt-scalafmt/blob/e59fc02237374e6/plugin/src/main/scala/org/scalafmt/sbt/ScalafmtPlugin.scala#L42-L45
+      TaskKey[File]("scalafmtConfig").?.value.filter(_.isFile).map { conf =>
+        Scalafmt
+          .create(this.getClass.getClassLoader)
+          .withReporter(new MyScalafmtReporter(log))
+          .createSession(conf.toPath)
+      }
+    }
+  )
+
   private val supportScalaBinaryVersions: Set[String] = Set("2.12", "2.13", "3")
 
   // https://github.com/scalameta/scalafmt/blob/b78a999c191d5afc955/scalafmt-dynamic/jvm/src/main/scala/org/scalafmt/dynamic/ConsoleScalafmtReporter.scala
@@ -86,22 +102,6 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
     def parsedConfig(config: java.nio.file.Path, scalafmtVersion: String): Unit =
       log.debug(s"parsed scalafmt config (v$scalafmtVersion): $config")
   }
-
-  private val createScalafmtInstance: Def.Initialize[Task[Option[ScalafmtSession]]] =
-    Def.task {
-      val log = streams.value.log
-      if (doctestScalafmt.value) {
-        // https://github.com/scalameta/sbt-scalafmt/blob/e59fc02237374e6/plugin/src/main/scala/org/scalafmt/sbt/ScalafmtPlugin.scala#L42-L45
-        TaskKey[File]("scalafmtConfig").?.value.filter(_.isFile).map { conf =>
-          Scalafmt
-            .create(this.getClass.getClassLoader)
-            .withReporter(new MyScalafmtReporter(log))
-            .createSession(conf.toPath)
-        }
-      } else {
-        None
-      }
-    }
 
   private def doctestScaladocGenTests(
       sources: Seq[File],
@@ -232,7 +232,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
                 })
                 val writeFile = new File(writeDir, writeBasename + "Doctest.scala")
                 IO.write(writeFile, result.testSource)
-                createScalafmtInstance.value.foreach { fmt =>
+                doctestScalafmtInstance.value.filter(_ => doctestScalafmt.value).foreach { fmt =>
                   log.debug(s"format ${writeFile.getAbsolutePath}")
                   IO.write(
                     writeFile,
