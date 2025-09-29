@@ -179,7 +179,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-RC5"
+          "2.0.0-RC6"
       }
     },
     name := "sbt-doctest",
