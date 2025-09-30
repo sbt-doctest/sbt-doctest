@@ -1,4 +1,4 @@
-val scalaVersions = Seq("2.12.20", "2.13.16", "3.7.3")
+val scalaVersions = Seq("2.12.20", "2.13.17", "3.7.3")
 
 Global / concurrentRestrictions += Tags.limit(NativeTags.Link, 1)
 

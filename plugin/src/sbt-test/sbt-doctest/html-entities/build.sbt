@@ -1,4 +1,4 @@
-crossScalaVersions := Seq("3.3.6", "2.13.16", "2.12.20")
+crossScalaVersions := Seq("3.3.6", "2.13.17", "2.12.20")
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
@@ -26,7 +26,7 @@ InputKey[Unit]("check") := {
     case "2" =>
       Seq(
         s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
-        s"target/out/jvm/scala-2.13.16/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-2.13.17/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
         s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"
       ).foreach(f => assert(file(f).isFile, f))
   }
