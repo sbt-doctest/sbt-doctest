@@ -1,6 +1,6 @@
 import java.nio.charset.StandardCharsets
 
-crossScalaVersions := Seq("3.3.6", "2.13.17", "2.12.20")
+crossScalaVersions := Seq("3.3.7", "2.13.17", "2.12.20")
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
@@ -36,11 +36,11 @@ InputKey[Unit]("check") := {
         "target/scala-2.13/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
         "target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala",
         "target/scala-2.13/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala",
-        "target/scala-3.3.6/src_managed/test/DocREADMEmd1Doctest.scala",
-        "target/scala-3.3.6/src_managed/test/READMEmd0Doctest.scala",
-        "target/scala-3.3.6/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
-        "target/scala-3.3.6/src_managed/test/sbt_doctest/MainDoctest.scala",
-        "target/scala-3.3.6/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala"
+        "target/scala-3.3.7/src_managed/test/DocREADMEmd1Doctest.scala",
+        "target/scala-3.3.7/src_managed/test/READMEmd0Doctest.scala",
+        "target/scala-3.3.7/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
+        "target/scala-3.3.7/src_managed/test/sbt_doctest/MainDoctest.scala",
+        "target/scala-3.3.7/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala"
       )
     case "2" =>
       Set(
@@ -54,11 +54,11 @@ InputKey[Unit]("check") := {
         s"target/out/jvm/scala-2.13.17/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
         s"target/out/jvm/scala-2.13.17/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
         s"target/out/jvm/scala-2.13.17/${name.value}/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala",
-        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
-        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/READMEmd0Doctest.scala",
-        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
-        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
-        s"target/out/jvm/scala-3.3.6/${name.value}/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala"
+        s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
+        s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala"
       )
   }
   val actual = sbt.io
