@@ -1,8 +1,8 @@
 package sbt_doctest
 
-import java.nio.file.StandardOpenOption
-import java.nio.file.Files
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.StandardOpenOption
 
 object Main {
 
