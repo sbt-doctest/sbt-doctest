@@ -198,8 +198,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
         .toList
       val log = streams.value.log
       val exclude: Set[(String, String)] = Set(
-        "js-native",
-        "scalafmt"
+        "js-native"
       ).map("sbt-doctest" -> _)
       val args = values.filterNot(exclude).map { case (x1, x2) => s"${x1}/${x2}" }
       val arg = args.mkString(" ", " ", "")
