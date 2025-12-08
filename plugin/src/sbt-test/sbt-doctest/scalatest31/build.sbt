@@ -1,6 +1,6 @@
 import java.nio.charset.StandardCharsets
 
-crossScalaVersions := Seq("2.12.20", "2.13.18")
+crossScalaVersions := Seq("2.12.21", "2.13.18")
 
 // Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
@@ -14,7 +14,7 @@ InputKey[Unit]("check") := {
   val (f1, f2) = sbtBinaryVersion.value match {
     case "2" =>
       (
-        file(s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"),
+        file(s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"),
         file(s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala")
       )
     case "1.0" =>

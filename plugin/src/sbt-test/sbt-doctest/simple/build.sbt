@@ -1,6 +1,6 @@
 import java.nio.charset.StandardCharsets
 
-crossScalaVersions := Seq("3.3.7", "2.13.18", "2.12.20")
+crossScalaVersions := Seq("3.3.7", "2.13.18", "2.12.21")
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
@@ -44,11 +44,11 @@ InputKey[Unit]("check") := {
       )
     case "2" =>
       Set(
-        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
-        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/READMEmd0Doctest.scala",
-        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
-        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
-        s"target/out/jvm/scala-2.12.20/${name.value}/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala",
+        s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
+        s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala",
         s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
         s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/READMEmd0Doctest.scala",
         s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/sbt_doctest/FailingOneDoctest.scala",
