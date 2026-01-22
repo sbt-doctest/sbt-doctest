@@ -1,6 +1,6 @@
 import java.nio.charset.StandardCharsets
 
-crossScalaVersions := Seq("3.3.7", "2.13.18", "2.12.21")
+crossScalaVersions := Seq("3.3.7", "3.8.1", "2.12.21")
 
 InputKey[Unit]("check") := {
   val expect = sbtBinaryVersion.value match {
@@ -21,9 +21,9 @@ InputKey[Unit]("check") := {
         s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
         s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/READMEmd0Doctest.scala",
         s"target/out/jvm/scala-2.12.21/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
-        s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
-        s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/READMEmd0Doctest.scala",
-        s"target/out/jvm/scala-2.13.18/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
+        s"target/out/jvm/scala-3.8.1/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
+        s"target/out/jvm/scala-3.8.1/${name.value}/src_managed/test/READMEmd0Doctest.scala",
+        s"target/out/jvm/scala-3.8.1/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala",
         s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/DocREADMEmd1Doctest.scala",
         s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/READMEmd0Doctest.scala",
         s"target/out/jvm/scala-3.3.7/${name.value}/src_managed/test/sbt_doctest/MainDoctest.scala"
