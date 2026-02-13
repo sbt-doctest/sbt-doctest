@@ -33,8 +33,6 @@ object ScaladocExtractor {
     }
   }
   def extractFromTree(code: Tree): List[ScaladocComment] = {
-    val comments = AssociatedComments(code)
-
     object NamedMember {
       def unapply(t: Tree): Option[String] = t match {
         case m: Member => Some(m.name.value)
@@ -54,11 +52,11 @@ object ScaladocExtractor {
       }
 
     def parsedScalaDocComment(t: Tree): Option[ScaladocComment] =
-      (t, comments.leading(t).filter(_.isScaladoc).toList) match {
+      (t, t.begComment) match {
         // take only named members having single scaladoc comment
-        case (NamedMember(name), List(scalaDocComment)) if name.nonEmpty =>
+        case (NamedMember(name), Some(scalaDocComment)) if name.nonEmpty =>
           ScaladocParser
-            .parse(s"/*${scalaDocComment.value}*/")
+            .parse(scalaDocComment.pos.text)
             .toSeq
             .flatMap(_.para.flatMap(_.terms))
             .collect {
@@ -77,7 +75,7 @@ object ScaladocExtractor {
                   pkg = pkgOf(t),
                   symbol = name,
                   codeBlocks = docTokens.collect { case (c, true) if c.trim.nonEmpty => c.trim }.toList,
-                  text = scalaDocComment.syntax,
+                  text = scalaDocComment.toString,
                   lineNo = scalaDocComment.pos.startLine + 1 // startLine is 0 based, so compensating here
                 )
               )
