@@ -75,7 +75,7 @@ object ScaladocExtractor {
                   pkg = pkgOf(t),
                   symbol = name,
                   codeBlocks = docTokens.collect { case (c, true) if c.trim.nonEmpty => c.trim }.toList,
-                  text = scalaDocComment.toString,
+                  text = scalaDocComment.pos.text,
                   lineNo = scalaDocComment.pos.startLine + 1 // startLine is 0 based, so compensating here
                 )
               )
