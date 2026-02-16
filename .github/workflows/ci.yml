@@ -13,6 +13,7 @@ jobs:
       matrix:
         include:
           - java: 8
+          - java: 17
           - java: 25
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -27,5 +28,8 @@ jobs:
            "all scalafmtSbtCheck scalafmtCheckAll"
            test
            plugin2_12/scripted
+    - if: "${{ matrix.java != '8' }}"
+      run: sbt -v
+           -J-Xmx4G
            plugin3/scriptedTestSbt2
     - run: rm -rf "$HOME/.ivy2/local"
