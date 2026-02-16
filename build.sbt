@@ -66,11 +66,10 @@ val commonSettings = Def.settings(
       case "3" =>
         Nil
       case _ =>
-        Seq("-Xlint")
+        Seq("-Xlint", "-release:8")
     }
   },
   scalacOptions ++= Seq(
-    "-release:8",
     "-deprecation",
     "-encoding",
     "UTF-8",
@@ -144,7 +143,13 @@ lazy val runtime = (projectMatrix in runtimeBase)
 lazy val plugin = (projectMatrix in file("plugin"))
   .enablePlugins(SbtPlugin)
   .jvmPlatform(
-    scalaVersions = Seq(Scala212, "3.7.4")
+    scalaVersions = {
+      if (scala.util.Properties.isJavaAtLeast("17")) {
+        Seq(Scala212, "3.8.2-RC3")
+      } else {
+        Seq(Scala212)
+      }
+    }
   )
   .settings(
     commonSettings,
@@ -179,7 +184,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-RC8"
+          "2.0.0-RC9"
       }
     },
     name := "sbt-doctest",
