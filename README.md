@@ -40,7 +40,7 @@ If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add th
 // ScalaTest 3.2 has been modularized. sbt-doctest generates tests using FunSpec.
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest-funspec" % "3.2.20" % Test,
-  "org.scalatestplus" %% "scalacheck-1-19" % "3.2.19.0" % Test
+  "org.scalatestplus" %% "scalacheck-1-19" % "3.2.20.0" % Test
 )
 
 // ScalaTest 3.1
