@@ -3,7 +3,7 @@ crossScalaVersions := Seq("3.3.7", "2.13.18", "2.12.21")
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "utest" % "0.8.4" % Test,
-  "org.scalatest" %% "scalatest-funspec" % "3.2.19" % Test,
+  "org.scalatest" %% "scalatest-funspec" % "3.2.20" % Test,
   "org.scalatestplus" %% "scalacheck-1-19" % "3.2.19.0" % Test,
   "org.scalacheck" %% "scalacheck" % "1.19.0" % Test,
   "io.monix" %% "minitest-laws" % "2.9.6" % Test,
