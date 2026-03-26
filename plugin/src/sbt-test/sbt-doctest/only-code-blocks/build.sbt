@@ -45,7 +45,7 @@ InputKey[Unit]("check") := {
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "utest" % "0.8.4" % Test,
   "org.scalatest" %% "scalatest-funspec" % "3.2.19" % Test,
-  "org.scalatestplus" %% "scalacheck-1-18" % "3.2.19.0" % Test,
+  "org.scalatestplus" %% "scalacheck-1-19" % "3.2.19.0" % Test,
   "org.scalacheck" %% "scalacheck" % "1.19.0" % Test,
   "org.specs2" %% "specs2-scalacheck" % "4.23.0" % Test,
   "io.monix" %% "minitest-laws" % "2.9.6" % Test,
