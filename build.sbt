@@ -145,7 +145,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
   .jvmPlatform(
     scalaVersions = {
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(Scala212, "3.8.1")
+        Seq(Scala212, "3.8.2")
       } else {
         Seq(Scala212)
       }
@@ -184,7 +184,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
         case "2.12" =>
           sbtVersion.value
         case _ =>
-          "2.0.0-RC9"
+          "2.0.0-RC10"
       }
     },
     name := "sbt-doctest",
