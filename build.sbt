@@ -145,7 +145,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
   .jvmPlatform(
     scalaVersions = {
       if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(Scala212, "3.8.2")
+        Seq(Scala212, "3.8.3")
       } else {
         Seq(Scala212)
       }
