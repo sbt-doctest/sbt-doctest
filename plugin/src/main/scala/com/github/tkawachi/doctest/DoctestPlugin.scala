@@ -2,6 +2,7 @@ package com.github.tkawachi.doctest
 
 import java.nio.file.Path
 import org.apache.commons.io.FilenameUtils
+import org.scalafmt.interfaces.RepositoryPackageDownloaderFactory
 import org.scalafmt.interfaces.Scalafmt
 import org.scalafmt.interfaces.ScalafmtSession
 import sbt.Keys.*
@@ -68,17 +69,46 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
   import autoImport.*
 
   @transient
-  private val doctestScalafmtInstance = taskKey[Option[ScalafmtSession]]("").withRank(KeyRanks.Invisible)
+  private val doctestScalafmtInstance =
+    taskKey[Option[xsbti.api.Lazy[ScalafmtSession]]]("").withRank(KeyRanks.Invisible)
 
   override lazy val buildSettings: Seq[Setting[?]] = Def.settings(
     doctestScalafmtInstance := {
-      val log = streams.value.log
-      // https://github.com/scalameta/sbt-scalafmt/blob/e59fc02237374e6/plugin/src/main/scala/org/scalafmt/sbt/ScalafmtPlugin.scala#L42-L45
+      val s = streams.value
+      val log = s.log
+      // https://github.com/scalameta/sbt-scalafmt/blob/4c8a4f79dbe5d9c/plugin/src/main/scala/org/scalafmt/sbt/ScalafmtPlugin.scala#L38-L42
       TaskKey[File]("scalafmtConfig").?.value.filter(_.isFile).map { conf =>
-        Scalafmt
-          .create(this.getClass.getClassLoader)
-          .withReporter(new MyScalafmtReporter(log))
-          .createSession(conf.toPath)
+        xsbti.api.SafeLazy.apply { () =>
+          try {
+            val factory = {
+              val Array(constructor) = Class
+                .forName("org.scalafmt.sbt.ScalafmtSbtDependencyDownloader")
+                .getConstructors()
+
+              constructor
+                .newInstance(
+                  s,
+                  (LocalRootProject / dependencyResolution).value: @sbtUnchecked,
+                  (LocalRootProject / updateConfiguration).value: @sbtUnchecked
+                )
+                .asInstanceOf[RepositoryPackageDownloaderFactory]
+            }
+
+            Scalafmt
+              .create(this.getClass.getClassLoader)
+              .withRespectProjectFilters(true)
+              .withRepositoryPackageDownloader(factory)
+              .withReporter(new MyScalafmtReporter(log))
+              .createSession(conf.toPath)
+          } catch {
+            case e: Throwable =>
+              s.log.trace(e)
+              Scalafmt
+                .create(this.getClass.getClassLoader)
+                .withReporter(new MyScalafmtReporter(log))
+                .createSession(conf.toPath)
+          }
+        }
       }
     }
   )
@@ -232,7 +262,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
                 })
                 val writeFile = new File(writeDir, writeBasename + "Doctest.scala")
                 IO.write(writeFile, result.testSource)
-                doctestScalafmtInstance.value.filter(_ => doctestScalafmt.value).foreach { fmt =>
+                doctestScalafmtInstance.value.filter(_ => doctestScalafmt.value).map(_.get()).foreach { fmt =>
                   log.debug(s"format ${writeFile.getAbsolutePath}")
                   IO.write(
                     writeFile,
