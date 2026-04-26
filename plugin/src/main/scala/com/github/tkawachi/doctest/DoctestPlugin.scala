@@ -55,6 +55,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
       settingKey[Option[String]]("Explicitly specify ScalaTest version to generate test files (ex. Some(\"3.2.0\")).")
     val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
+    @transient
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
     val doctestIgnoreRegex =
@@ -200,7 +201,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
           dialects.Scala213Source3
       }
     },
-    doctestGenTests := Def.uncached {
+    doctestGenTests := {
       (Test / managedSourceDirectories).value.headOption match {
         case None =>
           streams.value.log.warn("DocTest: `Test/managedSourceDirectories` is empty. Failed to generate tests")
