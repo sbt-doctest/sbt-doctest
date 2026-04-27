@@ -15,5 +15,8 @@ lazy val jsNativeTest = projectMatrix
     scalaVersions = scalaVersions
   )
   .nativePlatform(
-    scalaVersions = scalaVersions
+    scalaVersions,
+    Def.settings(
+      evictionErrorLevel := Level.Warn
+    )
   )
