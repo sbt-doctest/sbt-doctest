@@ -130,7 +130,10 @@ lazy val runtime = (projectMatrix in runtimeBase)
   )
   .nativePlatform(
     scalaVersions = scalaVersions,
-    settings = jsNativeCommon
+    settings = Def.settings(
+      jsNativeCommon,
+      evictionErrorLevel := Level.Warn
+    )
   )
   .settings(
     commonSettings,
