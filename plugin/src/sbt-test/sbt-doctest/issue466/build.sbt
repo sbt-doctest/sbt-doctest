@@ -1,4 +1,4 @@
-scalaVersion := "3.3.7"
+scalaVersion := "3.3.8"
 
 libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "4.23.0" % Test
 
