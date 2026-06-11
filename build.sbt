@@ -119,6 +119,16 @@ lazy val runtime = (projectMatrix in runtimeBase)
     scalaVersions = scalaVersions,
     settings = Def.settings(
       platformSrcDir(VirtualAxis.jvm.directorySuffix),
+      scalacOptions ++= {
+        if (scalaVersion.value.startsWith("3.3.")) {
+          Seq(
+            "-Yfuture-lazy-vals",
+            "-release:11"
+          )
+        } else {
+          Nil
+        }
+      },
       libraryDependencies ++= Seq(
         "com.google.guava" % "guava" % "33.6.0-jre" % Test
       )

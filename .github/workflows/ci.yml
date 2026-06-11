@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - java: 8
+          - java: 11
           - java: 17
           - java: 25
     steps:
@@ -28,7 +28,7 @@ jobs:
            "all scalafmtSbtCheck scalafmtCheckAll"
            test
            plugin2_12/scripted
-    - if: "${{ matrix.java != '8' }}"
+    - if: "${{ matrix.java != '11' }}"
       run: sbt -v
            -J-Xmx4G
            plugin3/scriptedTestSbt2
