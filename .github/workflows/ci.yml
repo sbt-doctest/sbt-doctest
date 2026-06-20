@@ -31,5 +31,5 @@ jobs:
     - if: "${{ matrix.java != '8' }}"
       run: sbt -v
            -J-Xmx4G
-           plugin3/scriptedTestSbt2
+           plugin3/scripted
     - run: rm -rf "$HOME/.ivy2/local"
