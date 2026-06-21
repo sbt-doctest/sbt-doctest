@@ -6,6 +6,7 @@ def Scala213 = "2.13.18"
 def Scala3 = "3.3.8"
 val scalaVersions = Seq(Scala212, Scala213, Scala3)
 def sbt2 = "2.0.0"
+def sbt1 = "1.12.12"
 
 val commonSettings = Def.settings(
   releaseProcess := Seq[ReleaseStep](
@@ -148,22 +149,20 @@ lazy val runtime = (projectMatrix in runtimeBase)
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "org.scalatest" %%% "scalatest-funspec" % "3.2.20" % Test,
-      "org.scala-lang.modules" %%% "scala-xml" % "2.4.0" % Test
+      "org.scalatest" %% "scalatest-funspec" % "3.2.20" % Test,
+      "org.scala-lang.modules" %% "scala-xml" % "2.4.0" % Test
     ),
     name := "doctest-runtime"
   )
 
 lazy val plugin = (projectMatrix in file("plugin"))
   .enablePlugins(SbtPlugin)
+  .defaultAxes(VirtualAxis.jvm)
   .jvmPlatform(
-    scalaVersions = {
-      if (scala.util.Properties.isJavaAtLeast("17")) {
-        Seq(Scala212, scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2))
-      } else {
-        Seq(Scala212)
-      }
-    }
+    scalaVersions = Seq(
+      Scala212,
+      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
+    )
   )
   .settings(
     commonSettings,
@@ -196,13 +195,13 @@ lazy val plugin = (projectMatrix in file("plugin"))
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" =>
-          sbtVersion.value
-        case _ =>
+          sbt1
+        case "3" =>
           sbt2
       }
     },
     name := "sbt-doctest",
-    scriptedDependencies := {
+    scriptedDependencies := Def.uncached {
       val s = state.value
       Project.extract(s).runAggregated(LocalRootProject / publishLocal, s)
     },
@@ -212,5 +211,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
     scriptedBufferLog := false
   )
 
-commonSettings
-publish / skip := true
+lazy val sbtDoctestRoot = rootProject.autoAggregate.settings(
+  commonSettings,
+  publish / skip := true
+)
