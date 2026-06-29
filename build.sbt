@@ -5,7 +5,7 @@ def Scala212 = "2.12.21"
 def Scala213 = "2.13.18"
 def Scala3 = "3.3.8"
 val scalaVersions = Seq(Scala212, Scala213, Scala3)
-def sbt2 = "2.0.0"
+def sbt2 = "2.0.1"
 def sbt1 = "1.12.13"
 
 val commonSettings = Def.settings(
