@@ -11,7 +11,7 @@ libraryDependencies ++= {
         Defaults.sbtPluginExtra(
           "com.eed3si9n" % "sbt-projectmatrix" % "0.11.0",
           (pluginCrossBuild / sbtBinaryVersion).value,
-          (update / scalaBinaryVersion).value,
+          (update / scalaBinaryVersion).value
         )
       )
   }
