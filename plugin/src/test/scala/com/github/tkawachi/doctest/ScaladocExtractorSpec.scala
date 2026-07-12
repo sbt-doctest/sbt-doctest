@@ -19,7 +19,7 @@ object ScaladocExtractorSpec extends TestSuite {
         dialects.Scala213Source3
       )
 
-    "extracts from Test.scala" - {
+    test("extracts from Test.scala") {
       val actual = extractFromFile("src/test/resources/Test.scala")
       val expected =
         List(
@@ -71,7 +71,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "extracts from RootPackage.scala" - {
+    test("extracts from RootPackage.scala") {
       val actual = extractFromFile("src/test/resources/RootPackage.scala")
       val expected =
         List(
@@ -86,7 +86,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "extracts from Package.scala" - {
+    test("extracts from Package.scala") {
       val actual = extractFromFile("src/test/resources/Package.scala")
       val expected =
         List(
@@ -99,7 +99,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "extracts only Scaladocs with some parseable text" - {
+    test("extracts only Scaladocs with some parseable text") {
       val source =
         """
           |package all_scaladocs_without_code
@@ -161,7 +161,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "parse errors are printed to stdout" - {
+    test("parse errors are printed to stdout") {
       val input = Input.VirtualFile("filename.scala", "object Main {")
       val out = new ByteArrayOutputStream()
       val obtained = Console.withOut(new PrintStream(out)) {
@@ -178,7 +178,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(obtainedOut == expectedOut)
     }
 
-    "extracts from CodeExamples.scala" - {
+    test("extracts from CodeExamples.scala") {
       val actual = extractFromFile("src/test/resources/CodeExamples.scala")
       val expected =
         List(
@@ -242,7 +242,7 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "extracts from package.scala" - {
+    test("extracts from package.scala") {
       val actual = extractFromFile("src/test/resources/package_object/package.scala")
       val expected = List(
         ScaladocComment(

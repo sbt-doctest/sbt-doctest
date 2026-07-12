@@ -23,8 +23,8 @@ object TestGenSpec extends TestSuite {
       )
     )
 
-    "MicroTestGen" - {
-      "generates a valid test" - {
+    test("MicroTestGen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -42,10 +42,10 @@ object TestGenSpec extends TestSuite {
             |
             |
             | val tests = this {
-            |  "MyClass.scala:37: sumExample" - {
+            |  test("MyClass.scala:37: sumExample") {
             |    import scala.util.Random
             |
-            |    "example at line 39: List(1,2,3).sum"-{
+            |    test("example at line 39: List(1,2,3).sum") {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
             |      val _actual_   =       sbtDoctestReplString(List(1,2,3).sum)
             |      val _expected_ = "6"
@@ -56,7 +56,7 @@ object TestGenSpec extends TestSuite {
             |
             |    val j = 19 + i
             |
-            |    "property at line 38: (i: Int) => i + i == i * 2"-{
+            |    test("property at line 38: (i: Int) => i + i == i * 2") {
             |      sbtDoctestReplString((i: Int) => i + i == i * 2)
             |    }
             |  }
@@ -70,8 +70,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "ScalaTest30Gen" - {
-      "generates a valid test" - {
+    test("ScalaTest30Gen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -117,8 +117,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "ScalaTest31Gen" - {
-      "generates a valid test" - {
+    test("ScalaTest31Gen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -164,8 +164,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "Specs2TestGen" - {
-      "generates a valid test" - {
+    test("Specs2TestGen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -211,8 +211,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "ScalaCheckGen" - {
-      "generates a valid test" - {
+    test("ScalaCheckGen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -258,8 +258,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "MinitestGen" - {
-      "generates a valid test" - {
+    test("MinitestGen") {
+      test("generates a valid test") {
 
         val expectedTest =
           """package com.example.tests
@@ -305,8 +305,8 @@ object TestGenSpec extends TestSuite {
       }
     }
 
-    "MunitGen" - {
-      "generates a valid test" - {
+    test("MunitGen") {
+      test("generates a valid test") {
         val expectedTest = """package com.example.tests
                              |
                              |import _root_.munit._

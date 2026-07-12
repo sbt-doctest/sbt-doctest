@@ -8,8 +8,8 @@ object CommentParserSpec extends TestSuite {
 
     import CommentParser.parse
 
-    "Python style" - {
-      "parses a single example" - {
+    test("Python style") {
+      test("parses a single example") {
         val comment =
           """ * >>> 1 + 2
             | * 3
@@ -19,7 +19,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-lines expr" - {
+      test("parses a multi-lines expr") {
         val comment =
           """ * >>> 1 + 2 +
             | * ... 3 +
@@ -31,7 +31,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "doesn't parse a single example for different leading string" - {
+      test("doesn't parse a single example for different leading string") {
         val comment =
           """ * >>> 1 + 2
             |*  3
@@ -41,7 +41,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses multiple examples" - {
+      test("parses multiple examples") {
         val comment =
           """ * >>> 1 + 2
             | * 3
@@ -55,7 +55,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line output" - {
+      test("parses a multi-line output") {
         val comment =
           """ * >>> "abc\ndef"
             | * abc
@@ -68,7 +68,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a <BLANKLINE>" - {
+      test("parses a <BLANKLINE>") {
         val comment =
           """ * >>> "abc\n\ndef"
             | * abc
@@ -81,7 +81,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses }}} as an end of example" - {
+      test("parses }}} as an end of example") {
         val comment =
           """ * >>> 1 + 1
             | * 2
@@ -93,7 +93,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses }}} as an end of multiline example" - {
+      test("parses }}} as an end of multiline example") {
         val comment =
           """ * >>> "Hello\nWorld"
             | * Hello
@@ -106,7 +106,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses multi-line outputs" - {
+      test("parses multi-line outputs") {
         val comment =
           """ * >>> "abc\ndef"
             | * abc
@@ -125,7 +125,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses an import line" - {
+      test("parses an import line") {
         val comment =
           """ * >>> import abc.def
           """.stripMargin
@@ -134,7 +134,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a single-line assignment" - {
+      test("parses a single-line assignment") {
         val comment =
           """ * >>> val xs = List(1, 2, 3)
           """.stripMargin
@@ -143,7 +143,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line assignment" - {
+      test("parses a multi-line assignment") {
         val comment =
           """ * >>> val xs = List(
             | * ... 1,
@@ -156,8 +156,8 @@ object CommentParserSpec extends TestSuite {
       }
     }
 
-    "Scala repl style" - {
-      "parses a single example" - {
+    test("Scala repl style") {
+      test("parses a single example") {
         val comment =
           """ * scala> 1 + 2
             | * res0: Int = 3
@@ -167,7 +167,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-lines expr" - {
+      test("parses a multi-lines expr") {
         val comment =
           """ * scala> 1 + 2 +
             | *      | 3 +
@@ -179,7 +179,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "doesn't parse a single example for different leading string" - {
+      test("doesn't parse a single example for different leading string") {
         val comment =
           """ * scala> 1 + 2
             |*  3
@@ -189,7 +189,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses multiple examples" - {
+      test("parses multiple examples") {
         val comment =
           """ * scala> 1 + 2
             | * res1: Int = 3
@@ -206,7 +206,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line output" - {
+      test("parses a multi-line output") {
         val comment =
           """ * scala> "abc\ndef"
             | * res0: String =
@@ -219,7 +219,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a <BLANKLINE>" - {
+      test("parses a <BLANKLINE>") {
         val comment =
           """ * scala> "abc\n\ndef"
             | * res0: String =
@@ -233,7 +233,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses }}} as an end of example" - {
+      test("parses }}} as an end of example") {
         val comment =
           """ * scala> 1 + 1
             | * res0: Int = 2
@@ -245,7 +245,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses }}} as an end of multiline example" - {
+      test("parses }}} as an end of multiline example") {
         val comment =
           """ * scala> "Hello\nWorld"
             | * res0: String =
@@ -259,7 +259,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses multi-line outputs" - {
+      test("parses multi-line outputs") {
         val comment =
           """ * scala> "abc\ndef"
             | * res0: String =
@@ -280,7 +280,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses an import line" - {
+      test("parses an import line") {
         val comment =
           """ * scala> import abc.def
           """.stripMargin
@@ -289,7 +289,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a result with a parametric type" - {
+      test("parses a result with a parametric type") {
         val comment =
           """ * scala> List(1)
             | * res1: List[Int] = List(1)
@@ -299,7 +299,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a type with a colon" - {
+      test("parses a type with a colon") {
         val comment =
           """ * scala> =:=
             | * res0: =:=.type = scala.Predef...
@@ -309,7 +309,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a type with equal signs" - {
+      test("parses a type with equal signs") {
         val comment =
           """ * scala> ==>>.empty[Int, String]
             | * res0: ==>>[Int, String] = ???
@@ -320,7 +320,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a type which only contains equal signs" - {
+      test("parses a type which only contains equal signs") {
         // This example would compile with this alias definition:
         // type == = String
         val comment =
@@ -335,7 +335,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a single-line assignment" - {
+      test("parses a single-line assignment") {
         val comment =
           """ * scala> var xs = List(1, 2, 3)
           """.stripMargin
@@ -344,7 +344,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line assignment" - {
+      test("parses a multi-line assignment") {
         val comment =
           """ * scala> var ys = List(
             | *      |   1,
@@ -356,7 +356,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses class definitions with annotations" - {
+      test("parses class definitions with annotations") {
         val comment =
           """ * scala> @deprecated("foo", "bar") case class Foo(x: Int)
           """.stripMargin
@@ -365,7 +365,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses an example that starts with a verbatim keyword" - {
+      test("parses an example that starts with a verbatim keyword") {
         val comment =
           """ * scala> val value = 1
             | * scala> value + 1
@@ -378,8 +378,8 @@ object CommentParserSpec extends TestSuite {
       }
     }
 
-    "Property based" - {
-      "parses a single property" - {
+    test("Property based") {
+      test("parses a single property") {
         val comment =
           """ * prop> (i: Int) => i + i == i * 2
           """.stripMargin
@@ -388,7 +388,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a muti-lines property" - {
+      test("parses a muti-lines property") {
         val comment =
           """ * prop> (i: Int) =>
             | *     | i + i == (i *
@@ -400,7 +400,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses an import line" - {
+      test("parses an import line") {
         val comment =
           """ * prop> import abc.def
           """.stripMargin
@@ -409,7 +409,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a single-line assignment" - {
+      test("parses a single-line assignment") {
         val comment =
           """ * prop> var xs = List(1, 2, 3)
           """.stripMargin
@@ -418,7 +418,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line assignment" - {
+      test("parses a multi-line assignment") {
         val comment =
           """ * prop> var ys = List(
             | *     |  1,
@@ -430,7 +430,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "parses a multi-line assignment whose first line is only a keyword" - {
+      test("parses a multi-line assignment whose first line is only a keyword") {
         val comment =
           """ * prop> def
             | *     | x = 1
@@ -441,8 +441,8 @@ object CommentParserSpec extends TestSuite {
       }
     }
 
-    "No examples" - {
-      "returns None" - {
+    test("No examples") {
+      test("returns None") {
         val comment =
           """/**
             | * Test comment.
@@ -454,8 +454,8 @@ object CommentParserSpec extends TestSuite {
       }
     }
 
-    "Markdown comments" - {
-      "python style" - {
+    test("Markdown comments") {
+      test("python style") {
         val comment =
           """```scala
             |>>> 1 + 2
@@ -467,7 +467,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "repl style" - {
+      test("repl style") {
         val comment =
           """```scala
             |scala> 1 + 2
@@ -479,7 +479,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "repl style with import and example" - {
+      test("repl style with import and example") {
         val comment =
           """```scala
             |scala> import scala.util.Success
@@ -497,7 +497,7 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
-      "property style" - {
+      test("property style") {
         val comment =
           """```scala
             |prop> (i: Int) => i + i == i * 2

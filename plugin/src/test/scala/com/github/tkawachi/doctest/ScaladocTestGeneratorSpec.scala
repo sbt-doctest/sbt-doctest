@@ -8,7 +8,7 @@ object ScaladocTestGeneratorSpec extends TestSuite {
 
   val tests = utest.Tests {
 
-    "findEncoding should work" - {
+    test("findEncoding should work") {
       assert(
         findEncoding(Nil).isEmpty,
         findEncoding(Seq("x")).isEmpty,

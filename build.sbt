@@ -185,7 +185,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
       "commons-io" % "commons-io" % "2.22.0",
       "org.apache.commons" % "commons-text" % "1.15.0",
       "org.scalameta" %% "scalameta" % "4.17.2",
-      "com.lihaoyi" %% "utest" % "0.8.4" % Test,
+      "com.lihaoyi" %% "utest" % "0.9.5" % Test,
       "org.scalatest" %% "scalatest-funspec" % "3.2.20" % Test,
       "org.scalatestplus" %% "scalacheck-1-19" % "3.2.20.0" % Test,
       "org.specs2" %% "specs2-scalacheck" % "4.23.0" % Test,

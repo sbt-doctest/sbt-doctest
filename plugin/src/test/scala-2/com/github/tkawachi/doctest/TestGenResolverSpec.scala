@@ -7,7 +7,7 @@ import utest.*
 
 object TestGenResolverSpec extends TestSuite {
   val tests = utest.Tests {
-    "findScalaTestVersion()" - {
+    test("findScalaTestVersion()") {
       val result = TestGenResolver.findScalaTestVersion(
         Seq(
           Attributed(file("."))(
@@ -19,7 +19,7 @@ object TestGenResolverSpec extends TestSuite {
       assert(result.contains("3.0.0"))
     }
 
-    "findScalaTestVersion() scalaVersion mismatch" - {
+    test("findScalaTestVersion() scalaVersion mismatch") {
       val result = TestGenResolver.findScalaTestVersion(
         Seq(
           Attributed(file("."))(
@@ -31,7 +31,7 @@ object TestGenResolverSpec extends TestSuite {
       assert(result.isEmpty)
     }
 
-    "resolve(ScalaTest, 3.0.9)" - {
+    test("resolve(ScalaTest, 3.0.9)") {
       val result = TestGenResolver.resolve(DoctestTestFramework.ScalaTest, Some("3.0.9"))
       assert(result == ScalaTest30Gen)
     }

@@ -8,7 +8,7 @@ object MarkdownCodeblocksExtractorSpec extends TestSuite {
 
     val extractor = new MarkdownCodeblocksExtractor
 
-    "extracts Markdown code block" - {
+    test("extracts Markdown code block") {
       val src = """
                   | # Header
                   |
@@ -31,7 +31,7 @@ object MarkdownCodeblocksExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
-    "extracts multiple Markdown code blocks" - {
+    test("extracts multiple Markdown code blocks") {
       val src = """
                   | # Header
                   |

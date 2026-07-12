@@ -22,19 +22,19 @@ object MicroTestGen extends TestGen {
        | }""".stripMargin
 
   override protected def generateTestCase(caseName: String, caseBody: String, onlyCodeblocks: Boolean): String = {
-    s"""  "$caseName" - {
+    s"""  test("$caseName") {
        |$caseBody
        |  }""".stripMargin
   }
 
   override protected def generateExample(description: String, assertions: String, onlyCodeblocks: Boolean): String = {
-    s"""    "$description"-{
+    s"""    test("$description") {
        |      $assertions
        |    }""".stripMargin
   }
 
   override protected def generatePropertyExample(description: String, property: String): String = {
-    s"""    "$description"-{
+    s"""    test("$description") {
        |      sbtDoctestReplString($property)
        |    }""".stripMargin
   }
