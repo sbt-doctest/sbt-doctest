@@ -218,7 +218,7 @@ object TestGenSpec extends TestSuite {
           """package com.example.tests
             |
             |import _root_.org.scalacheck.Arbitrary._
-            |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
+            |import _root_.org.scalacheck.Prop._
             |
             |object `MyClassDoctest`
             |    extends _root_.org.scalacheck.Properties("MyClass.scala") {
@@ -266,7 +266,7 @@ object TestGenSpec extends TestSuite {
             |
             |import _root_.minitest._
             |import _root_.minitest.laws.Checkers
-            |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
+            |import _root_.org.scalacheck.Prop._
             |import _root_.org.scalacheck.Arbitrary._
             |
             |object `MyClassDoctest` extends SimpleTestSuite with Checkers {

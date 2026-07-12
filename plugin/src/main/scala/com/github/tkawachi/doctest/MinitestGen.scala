@@ -14,7 +14,7 @@ object MinitestGen extends TestGen {
     s"""import _root_.minitest._
        |${if (TestGen.containsProperty(parsedList))
         s"""import _root_.minitest.laws.Checkers
-           |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
+           |import _root_.org.scalacheck.Prop._
            |${TestGen.importArbitrary(parsedList)}""".stripMargin
       else ""}""".stripMargin
 

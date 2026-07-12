@@ -12,7 +12,7 @@ object ScalaCheckGen extends TestGen {
   override protected def importsLine(parsedList: Seq[ParsedDoctest]): String = {
     val importProp =
       if (TestGen.containsExample(parsedList) || TestGen.containsProperty(parsedList))
-        "import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}"
+        "import _root_.org.scalacheck.Prop._"
       else
         ""
     s"""${TestGen.importArbitrary(parsedList)}

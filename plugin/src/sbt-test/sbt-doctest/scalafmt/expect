@@ -1,6 +1,6 @@
 package sbt_doctest
 
-import _root_.org.scalacheck.Prop.{BooleanOperators as _, *}
+import _root_.org.scalacheck.Prop.*
 
 object `MainDoctest` extends _root_.org.scalacheck.Properties("Main.scala") {
 
