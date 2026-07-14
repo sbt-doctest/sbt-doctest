@@ -172,7 +172,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
       Seq(f)
     },
     libraryDependencies ++= Seq(
-      "org.scalameta" % "scalafmt-interfaces" % "3.11.1",
+      "org.scalameta" % "scalafmt-interfaces" % "3.11.3",
       "commons-io" % "commons-io" % "2.22.0",
       "org.apache.commons" % "commons-text" % "1.15.0",
       "org.scalameta" %% "scalameta" % "4.17.0",
