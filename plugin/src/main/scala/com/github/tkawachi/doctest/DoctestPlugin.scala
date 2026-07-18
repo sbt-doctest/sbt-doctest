@@ -89,7 +89,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
               constructor
                 .newInstance(
                   s,
-                  (LocalRootProject / dependencyResolution).value: @sbtUnchecked,
+                  (LocalRootProject / csrConfiguration).value: @sbtUnchecked,
                   (LocalRootProject / updateConfiguration).value: @sbtUnchecked
                 )
                 .asInstanceOf[RepositoryPackageDownloaderFactory]
