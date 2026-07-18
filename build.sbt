@@ -195,6 +195,16 @@ lazy val plugin = (projectMatrix in file("plugin"))
       "org.specs2" %% "specs2-scalacheck" % "4.23.0" % Test,
       "io.monix" %% "minitest-laws" % "2.9.6" % Test
     ),
+    libraryDependencies ++= {
+      scalaBinaryVersion.value match {
+        case "3" =>
+          // https://github.com/sbt/sbt/issues/9441
+          // https://github.com/scala/scala3/issues/18487
+          Seq("net.hamnaberg" %% "dataclass-annotation" % "0.3.0")
+        case _ =>
+          Nil
+      }
+    },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
