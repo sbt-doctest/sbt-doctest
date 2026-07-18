@@ -49,10 +49,10 @@ val commonSettings = Def.settings(
   },
   sbtPluginPublishLegacyMavenStyle := false,
   organization := "io.github.sbt-doctest",
-  licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
+  licenses := Seq("MIT" -> uri("https://opensource.org/licenses/MIT")),
   scmInfo := Some(
     ScmInfo(
-      url("https://github.com/sbt-doctest/sbt-doctest/"),
+      uri("https://github.com/sbt-doctest/sbt-doctest/"),
       "scm:git:github.com:sbt-doctest/sbt-doctest.git"
     )
   ),
