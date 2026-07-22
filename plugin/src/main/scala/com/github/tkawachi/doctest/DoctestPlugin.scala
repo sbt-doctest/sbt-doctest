@@ -86,13 +86,25 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
                 .forName("org.scalafmt.sbt.ScalafmtSbtDependencyDownloader")
                 .getConstructors()
 
-              constructor
-                .newInstance(
-                  s,
-                  (LocalRootProject / csrConfiguration).value: @sbtUnchecked,
-                  (LocalRootProject / updateConfiguration).value: @sbtUnchecked
-                )
-                .asInstanceOf[RepositoryPackageDownloaderFactory]
+              (if (
+                 constructor.getParameterTypes.lift
+                   .apply(1)
+                   .contains(classOf[sbt.librarymanagement.DependencyResolution])
+               ) {
+                 constructor
+                   .newInstance(
+                     s,
+                     (LocalRootProject / dependencyResolution).value: @sbtUnchecked,
+                     (LocalRootProject / updateConfiguration).value: @sbtUnchecked
+                   )
+               } else {
+                 constructor
+                   .newInstance(
+                     s,
+                     (LocalRootProject / csrConfiguration).value: @sbtUnchecked,
+                     (LocalRootProject / updateConfiguration).value: @sbtUnchecked
+                   )
+               }).asInstanceOf[RepositoryPackageDownloaderFactory]
             }
 
             Scalafmt
