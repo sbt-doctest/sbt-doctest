@@ -10,7 +10,7 @@ val sbt2 = {
   p.load(new java.io.FileInputStream("project/build.properties"))
   p.getProperty("sbt.version").trim
 }
-def sbt1 = "1.12.14"
+def sbt1 = "1.12.15"
 
 val commonSettings = Def.settings(
   releaseProcess := Seq[ReleaseStep](
