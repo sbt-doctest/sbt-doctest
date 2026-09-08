@@ -154,7 +154,7 @@ lazy val runtime = (projectMatrix in runtimeBase)
     commonSettings,
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest-funspec" % "3.2.20" % Test,
-      "org.scala-lang.modules" %% "scala-xml" % "2.4.0" % Test
+      "org.scala-lang.modules" %% "scala-xml" % "2.5.0" % Test
     ),
     name := "doctest-runtime"
   )
