@@ -135,7 +135,7 @@ lazy val runtime = (projectMatrix in runtimeBase)
         }
       },
       libraryDependencies ++= Seq(
-        "com.google.guava" % "guava" % "33.7.1-jre" % Test
+        "com.google.guava" % "guava" % "33.7.2-jre" % Test
       )
     )
   )
