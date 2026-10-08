@@ -2,7 +2,7 @@ libraryDependencies += "org.scala-sbt" %% "scripted-plugin" % sbtVersion.value
 
 addSbtPlugin("com.eed3si9n" % "sbt-salad-days" % "0.2.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.7.0")
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.7.1")
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.5.0")
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.2")
 addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.2")
