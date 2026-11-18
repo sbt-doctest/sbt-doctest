@@ -5,11 +5,7 @@ def Scala212 = "2.12.21"
 def Scala213 = "2.13.18"
 def Scala3 = "3.3.9"
 val scalaVersions = Seq(Scala212, Scala213, Scala3)
-val sbt2 = {
-  val p = new java.util.Properties
-  p.load(new java.io.FileInputStream("project/build.properties"))
-  p.getProperty("sbt.version").trim
-}
+val sbt2 = "2.1.0"
 def sbt1 = "1.13.1"
 
 val commonSettings = Def.settings(
@@ -165,7 +161,7 @@ lazy val plugin = (projectMatrix in file("plugin"))
   .jvmPlatform(
     scalaVersions = Seq(
       Scala212,
-      scala_version_from_sbt_version.ScalaVersionFromSbtVersion(sbt2)
+      "3.9.0"
     )
   )
   .settings(
