@@ -1,5 +1,5 @@
 addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % System.getProperty("plugin.version"))
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.22.0")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.23.0")
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.13")
 
 libraryDependencies ++= {
